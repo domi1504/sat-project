@@ -12,8 +12,8 @@ def clause_satisfied(assignment, row):
     return False
 
 
-def check_assignment(assignment, formula):
-    for row in formula.matrix:
+def check_assignment(assignment, instance):
+    for row in instance.bit_matrix:
         if not clause_satisfied(assignment, row):
             return False
     return True
