@@ -15,7 +15,7 @@ class Instance:
     000110
     """
 
-    def __init__(self, bit_matrix: np.array):
+    def __init__(self, bit_matrix: np.ndarray):
         self.bit_matrix: np.ndarray = bit_matrix
         assert bit_matrix_valid(self.bit_matrix)
         self.clauses: set = create_clauses(self.bit_matrix)

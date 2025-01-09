@@ -34,3 +34,30 @@ def sort_bit_matrix(matrix: np.ndarray):
     sorted_matrix = matrix[sorted_indices[::-1]]
 
     return sorted_matrix
+
+
+def clauses_to_bit_matrix(clauses: set) -> np.ndarray:
+
+    num_clauses = len(clauses)
+
+    # Count variables & create mapping to indices
+    var_index_map = {}
+    cur_index = 0
+    for clause in clauses:
+        for lit in clause:
+            var = lit[1:] if lit.startswith("-") else lit
+            if var not in var_index_map.keys():
+                var_index_map[var] = cur_index
+                cur_index += 1
+    num_vars = len(var_index_map.keys())
+
+    # Initialize bit matrix
+    bit_matrix = np.zeros((num_clauses, num_vars * 2), dtype=np.uint8)
+
+    for clause_index, clause in enumerate(clauses):
+        for lit in clause:
+            is_negated = lit.startswith("-")
+            var = lit[1:] if lit.startswith("-") else lit
+            bit_matrix[clause_index][2 * var_index_map[var] + (1 if is_negated else 0)] = 1
+
+    return bit_matrix

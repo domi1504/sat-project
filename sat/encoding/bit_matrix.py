@@ -42,7 +42,10 @@ def parse_bit_matrix(matrix: str) -> Instance:
     return Instance(arr)
 
 
-def write_bit_matrix(f: Instance) -> str:
-    # todo.
-    pass
+def write_bit_matrix(instance: Instance) -> str:
+    lines = ""
+    for row in instance.bit_matrix:
+        lines += str(row).replace(" ", "").replace("[", "").replace("]", "")
+        lines += "\n"
+    return lines
 
