@@ -1,6 +1,7 @@
 from sat.encoding.bit_matrix import parse_bit_matrix, write_bit_matrix
 from sat.encoding.dimacs_cnf import syntax_check_dimacs_snf, parse_dimacs_cnf, write_dimacs_cnf
 from sat.solve.brute_force import is_satisfiable
+from sat.solve.two_sat import is_satisfiable_2_sat
 
 """
 file_path = '../../samples/is_core/1.txt'
@@ -30,3 +31,6 @@ print(" ")
 
 res = is_satisfiable(inst)
 print(res)
+
+
+

@@ -1,5 +1,7 @@
 import numpy as np
 
+# todo. clauses valid with: alle vars sind in [1,...n]
+
 
 def create_clauses(bit_matrix: np.ndarray):
     clauses = set()

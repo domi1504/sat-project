@@ -19,15 +19,14 @@ def check_assignment(assignment, instance):
     return True
 
 
-def is_satisfiable(instance: Instance):
+def is_satisfiable(instance: Instance) -> bool:
 
     nr_vars = instance.nr_vars()
 
     for assignment_index in range(2 ** nr_vars):
         assignment = format(assignment_index, f'0{nr_vars}b')
         if check_assignment(assignment, instance):
-            return assignment
+            return True
 
-    return None
-
+    return False
 

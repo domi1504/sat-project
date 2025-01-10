@@ -1,0 +1,7 @@
+c 2-SAT problem instance with 4 variables and 22 clauses
+p cnf 4 5
+1 2 0
+-1 3 0
+2 -3 0
+-2 4 0
+3 -4 0
