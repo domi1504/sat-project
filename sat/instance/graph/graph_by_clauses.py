@@ -2,6 +2,17 @@ import numpy as np
 import networkx as nx
 from sat.instance.instance import Instance
 
+"""
+Graph by clauses
+
+1 node per clause
+Edge between two nodes (clauses), if they share a variable (pos or neg form) 
+
+E.g.
+(x1 or x2) and (!x2 or x3) and (x3 or x4)
+===
+(A) --- (B) --- (C)
+"""
 
 def create_graph_by_clauses(instance: Instance) -> nx.Graph:
 

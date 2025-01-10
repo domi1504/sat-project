@@ -1,7 +1,17 @@
 import numpy as np
 
 
-def bit_matrix_valid(matrix: np.array):
+"""
+Bit-Matrix
+E.g.
+(x1 or x2) and (!x2 or x3)
+===
+101000
+000110
+"""
+
+
+def bit_matrix_valid(matrix: np.ndarray) -> bool:
 
     # Check datatype
     if matrix.dtype != np.uint8:
@@ -20,20 +30,6 @@ def bit_matrix_valid(matrix: np.array):
         return False
 
     return True
-
-
-def sort_bit_matrix(matrix: np.ndarray):
-
-    # Count the number of ones in each row
-    ones_count = np.sum(matrix, axis=1)
-
-    # Sort the rows based on the ones count
-    sorted_indices = np.argsort(ones_count)
-
-    # Rearrange the rows in the sorted order
-    sorted_matrix = matrix[sorted_indices[::-1]]
-
-    return sorted_matrix
 
 
 def clauses_to_bit_matrix(clauses: set) -> np.ndarray:
@@ -61,3 +57,17 @@ def clauses_to_bit_matrix(clauses: set) -> np.ndarray:
             bit_matrix[clause_index][2 * var_index_map[var] + (1 if is_negated else 0)] = 1
 
     return bit_matrix
+
+
+def sort_bit_matrix(matrix: np.ndarray) -> np.ndarray:
+
+    # Count the number of ones in each row
+    ones_count = np.sum(matrix, axis=1)
+
+    # Sort the rows based on the ones count
+    sorted_indices = np.argsort(ones_count)
+
+    # Rearrange the rows in the sorted order
+    sorted_matrix = matrix[sorted_indices[::-1]]
+
+    return sorted_matrix

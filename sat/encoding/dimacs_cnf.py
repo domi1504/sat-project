@@ -2,8 +2,18 @@ from sat.instance.bit_matrix.bit_matrix import clauses_to_bit_matrix
 from sat.instance.instance import Instance
 import re
 
+
 """
-https://jix.github.io/varisat/manual/0.2.0/formats/dimacs.html
+See: https://jix.github.io/varisat/manual/0.2.0/formats/dimacs.html
+
+DIMACS CNF format:
+
+c This is a comment
+p cnf <num_vars> <num_clauses>
+1 2 0
+-2 -3 0
+-1 3 0
+
 """
 
 

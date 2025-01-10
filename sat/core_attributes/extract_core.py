@@ -2,6 +2,7 @@ import copy
 import numpy as np
 from sat.core_attributes.lovasz_local_lemma import is_lll_satisfied
 from sat.core_attributes.one_connected_component import is_one_connected_component
+from sat.core_attributes.renamable_horn import is_renamable_horn
 from sat.core_attributes.toveys_crit import is_tovey_satisfied
 from sat.core_attributes.two_sat import is_2_sat
 from sat.instance.instance import Instance
@@ -254,7 +255,9 @@ def is_formula_core(instance: Instance) -> bool:
     if is_2_sat(instance):
         raise Exception("2-SAT: trivially solvable")
 
-    # todo horn & renamable horn
+    if is_renamable_horn(instance):
+        raise Exception("Renamable Horn: trivially solvable")
+
     # todo. keine klausel mit nur pos / nur neg?
 
     return True

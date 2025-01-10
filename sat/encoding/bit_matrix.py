@@ -2,6 +2,16 @@ import numpy as np
 from sat.instance.instance import Instance
 
 
+"""
+Bit-Matrix
+E.g.
+(x1 or x2) and (!x2 or x3)
+===
+101000
+000110
+"""
+
+
 def syntax_check_bit_matrix(matrix: str):
 
     # Check for valid chars

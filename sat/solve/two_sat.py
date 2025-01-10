@@ -38,7 +38,7 @@ def is_satisfiable_2_sat(instance: Instance) -> bool:
         for lit in component:
             contained_vars.add(lit if not lit.startswith("-") else lit[1:])
         if len(contained_vars) != len(component):
-            # Found: a variable is contained in positive and negative form
+            # Found: a variable x that is contained in positive and negative form
             return False
 
     return True
