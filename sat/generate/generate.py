@@ -4,6 +4,7 @@ from random import randrange
 from sat.instance.instance import Instance
 
 """
+todo.
 def generate_random_formula_a(nr_clauses, nr_vars) -> Instance:
 
     while True:

@@ -1,5 +1,4 @@
 import numpy as np
-import re
 
 
 """
@@ -12,31 +11,26 @@ E.g.
 """
 
 
-def clauses_valid(clauses: set) -> bool:
+def clauses_valid(clauses: set[tuple[int, ...]]) -> bool:
 
     # Check datatypes
     for clause in clauses:
         if type(clause) != tuple:
             return False
         for lit in clause:
-            if type(lit) != str:
+            if type(lit) != int:
                 return False
-
-    # Check for correct literals (only form <INT> or -<INT>)
-    pattern = r"^-?[1-9]\d*$"
-    def matches_format(s):
-        return bool(re.fullmatch(pattern, s))
 
     for clause in clauses:
         for lit in clause:
-            if not matches_format(lit):
+            if lit == 0:
                 return False
 
     # Check that only variables from exactly  [1, ..., n] (not more, not less!)
     variables = set()
     for clause in clauses:
         for lit in clause:
-            variables.add(int(lit) if not lit.startswith("-") else int(lit[1:]))
+            variables.add(abs(lit))
 
     variables = sorted(list(variables))
     if variables != list(range(1, len(variables) + 1)):
@@ -46,7 +40,7 @@ def clauses_valid(clauses: set) -> bool:
     return True
 
 
-def bit_matrix_to_clauses(bit_matrix: np.ndarray) -> set:
+def bit_matrix_to_clauses(bit_matrix: np.ndarray) -> set[tuple[int, ...]]:
 
     clauses = set()
     for row in bit_matrix:
@@ -55,13 +49,14 @@ def bit_matrix_to_clauses(bit_matrix: np.ndarray) -> set:
 
             # To start from 1, not from 0
             pos += 2
+            variable = int(pos // 2)
 
             if pos % 2 == 0:
                 # Positive literal
-                clause.append(str(pos // 2))
+                clause.append(variable)
             else:
                 # Negative literal
-                clause.append("-" + str(pos // 2))
+                clause.append(-variable)
 
         clauses.add(tuple(clause))
 

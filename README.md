@@ -42,6 +42,7 @@ In this project, I want to grapple with the satisfiability problem (SAT).
 > 
 > The focus is more on the didactic aspect. It's about understanding the different base approaches and have a working implementation.
 
+- Get some sample SAT instances from online benchmarks
 - Run those algorithms against sample instances and measure their performance (not really important, since not optimized anyway)
 - Get a feeling for what instance sizes are possible to deal with nowadays
 - Get to know the State-Of-The-Art SAT solvers, and on what base approaches they are building upon
@@ -62,7 +63,8 @@ In this project, I want to grapple with the satisfiability problem (SAT).
 
 ## Literature
 
-- Das Erfüllbarkeitsproblem SAT (Uwe Schöning, [siehe hier](https://www.google.de/books/edition/Das_Erf%C3%BCllbarkeitsproblem_SAT/55HzCQAAQBAJ?hl=de&gbpv=0))
+- Das Erfüllbarkeitsproblem SAT (Schöning, [siehe hier](https://www.google.de/books/edition/Das_Erf%C3%BCllbarkeitsproblem_SAT/55HzCQAAQBAJ?hl=de&gbpv=0))
+- TAOCP, 4B (Knuth)
 
 ## Random more ideas
 

@@ -32,7 +32,7 @@ def bit_matrix_valid(matrix: np.ndarray) -> bool:
     return True
 
 
-def clauses_to_bit_matrix(clauses: set) -> np.ndarray:
+def clauses_to_bit_matrix(clauses: set[tuple[int, ...]]) -> np.ndarray:
 
     num_clauses = len(clauses)
 
@@ -41,7 +41,7 @@ def clauses_to_bit_matrix(clauses: set) -> np.ndarray:
     cur_index = 0
     for clause in clauses:
         for lit in clause:
-            var = lit[1:] if lit.startswith("-") else lit
+            var = abs(lit)
             if var not in var_index_map.keys():
                 var_index_map[var] = cur_index
                 cur_index += 1
@@ -52,8 +52,8 @@ def clauses_to_bit_matrix(clauses: set) -> np.ndarray:
 
     for clause_index, clause in enumerate(clauses):
         for lit in clause:
-            is_negated = lit.startswith("-")
-            var = lit[1:] if lit.startswith("-") else lit
+            is_negated = lit < 0
+            var = abs(lit)
             bit_matrix[clause_index][2 * var_index_map[var] + (1 if is_negated else 0)] = 1
 
     return bit_matrix

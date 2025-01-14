@@ -17,7 +17,7 @@ def is_biathlet_satisfied(instance: Instance) -> bool:
     nr_of_targets = 2 ** instance.nr_vars()
 
     nr_of_shots = 0
-    for clause in instance.matrix:
+    for clause in instance.bit_matrix:
         # 2 ^ (|V| - k), k = nr of literals in the clause
         nr_of_shots += (2 ** (instance.nr_vars() - np.sum(clause)))
 

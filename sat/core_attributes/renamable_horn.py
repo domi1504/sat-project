@@ -5,8 +5,6 @@ from sat.solve.two_sat import is_satisfiable_2_sat
 Referenz: Schöning.
 """
 
-# todo. mal auf papier durchgehen und verstehen
-
 
 def is_renamable_horn(instance: Instance):
 

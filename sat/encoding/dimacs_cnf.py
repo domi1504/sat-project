@@ -72,7 +72,10 @@ def parse_dimacs_cnf(dimacs_cnf: str) -> Instance:
     # Parse clauses
     clauses = set()
     for line in lines[1:]:
-        clauses.add(tuple(line.strip(" ").split(" ")[:-1]))
+        # Parse clause
+        clause_as_str = tuple(line.strip(" ").split(" ")[:-1])
+        clause = tuple(int(lit) for lit in clause_as_str)
+        clauses.add(clause)
 
     # Compute bit matrix
     bit_matrix = clauses_to_bit_matrix(clauses)
@@ -92,7 +95,7 @@ def write_dimacs_cnf(instance: Instance) -> str:
     for clause in instance.clauses:
         line = ""
         for lit in clause:
-            line += lit + " "
+            line += f"{lit} "
         line += "0"
         dimacs_cnf += "\n" + line
 
