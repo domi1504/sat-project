@@ -258,6 +258,4 @@ def is_formula_core(instance: Instance) -> bool:
     if is_renamable_horn(instance):
         raise Exception("Renamable Horn: trivially solvable")
 
-    # todo. keine klausel mit nur pos / nur neg?
-
     return True

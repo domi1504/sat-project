@@ -52,6 +52,7 @@ In this project, I want to grapple with the satisfiability problem (SAT).
 **Try to do some research on my own** 
 
 - Generate "core" SAT-instances (satisfiable & not satisfiable, minimally unsatisfiable)
+  - Maybe also specific types of SAT-instances such as (Renamable-)Horn, 3SAT, etc.
 - Is it possible to find characteristics of (un)satisfiable instances (of course poly-computable)?
   - Given minimally unsatisfiable instances, check if there are shared (maybe just in a subset) characteristics to find
     - Maybe some attribute A, s.t. : instance has A => instance is unsatisfiable
