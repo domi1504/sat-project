@@ -8,7 +8,7 @@ todo.
 def generate_random_formula_a(nr_clauses, nr_vars) -> Instance:
 
     while True:
-        f1 = Instance(np.random.randint(2, size=(nr_clauses * 2, 2 * nr_vars)))
+        f1 = np.random.randint(2, size=(nr_clauses * 2, 2 * nr_vars)))
         f2 = normalize_formula(f1.bit_matrix)
 
         if f2.shape[0] >= nr_clauses and f2.shape[1] == 2*nr_vars:

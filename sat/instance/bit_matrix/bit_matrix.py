@@ -22,7 +22,8 @@ def bit_matrix_valid(matrix: np.ndarray) -> bool:
         return False
 
     # Check for only 0 and 1
-    if list(np.unique(matrix)) != [0, 1]:
+    values = list(np.unique(matrix))
+    if any(v not in (0, 1) for v in values):
         return False
 
     # Check that even number of columns (2 per variable)

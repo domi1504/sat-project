@@ -19,12 +19,10 @@ def check_assignment(assignment, instance):
     return True
 
 
-def is_satisfiable(instance: Instance) -> bool:
+def is_satisfiable_brute_force(instance: Instance) -> bool:
 
-    nr_vars = instance.nr_vars()
-
-    for assignment_index in range(2 ** nr_vars):
-        assignment = format(assignment_index, f'0{nr_vars}b')
+    for assignment_index in range(2 ** instance.num_variables):
+        assignment = format(assignment_index, f'0{instance.num_variables}b')
         if check_assignment(assignment, instance):
             return True
 

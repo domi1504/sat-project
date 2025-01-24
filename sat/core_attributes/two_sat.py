@@ -15,5 +15,5 @@ def is_2_sat(instance: Instance) -> bool:
     """
 
     # Length of longest clause
-    k = np.max([np.sum(clause) for clause in instance.bit_matrix])
+    k = max([len(clause) for clause in instance.clauses])
     return k == 2

@@ -37,10 +37,10 @@ def is_lll_satisfied(instance: Instance) -> bool:
         for j in range(var_occs.shape[1]):
             var_occs[i, j] = instance.bit_matrix[i, 2*j] or instance.bit_matrix[i, 2*j+1]
 
-    for i in range(instance.nr_clauses()):
+    for i in range(instance.num_clauses):
 
         associated_counter = 0
-        for j in range(instance.nr_clauses()):
+        for j in range(instance.num_clauses):
 
             if i == j:
                 continue

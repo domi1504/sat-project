@@ -25,11 +25,11 @@ def create_graph_by_clauses(instance: Instance) -> nx.Graph:
     g = nx.Graph()
 
     # One node per clause
-    g.add_nodes_from(list(range(instance.nr_clauses())))
+    g.add_nodes_from(list(range(instance.num_clauses)))
 
     # Add edges
-    for i in range(instance.nr_clauses()):
-        for j in range(instance.nr_clauses()):
+    for i in range(instance.num_clauses):
+        for j in range(instance.num_clauses):
 
             if i == j:
                 continue

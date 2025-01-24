@@ -1,4 +1,4 @@
-from sat.instance.instance import Instance, get_instance_from_clauses
+from sat.instance.instance import Instance
 from sat.solve.two_sat import is_satisfiable_2_sat
 
 """
@@ -22,7 +22,7 @@ def is_renamable_horn(instance: Instance):
                 if not (a, b) in clauses_check and (b, a) not in clauses_check:
                     clauses_check.add((a, b))
 
-    instance_check = get_instance_from_clauses(clauses_check)
+    instance_check = Instance(clauses_check)
 
     # Check instance satisfiable <=> instance is renamable horn
     return is_satisfiable_2_sat(instance_check)

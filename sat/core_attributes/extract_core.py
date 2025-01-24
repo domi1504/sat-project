@@ -5,7 +5,7 @@ from sat.core_attributes.one_connected_component import is_one_connected_compone
 from sat.core_attributes.renamable_horn import is_renamable_horn
 from sat.core_attributes.toveys_crit import is_tovey_satisfied
 from sat.core_attributes.two_sat import is_2_sat
-from sat.instance.instance import Instance
+from sat.instance.instance import Instance, get_instance_from_bit_matrix
 
 
 def _remove_clauses_and_literals(matrix: np.ndarray, clauses: set, literals: set) -> np.ndarray:
@@ -90,22 +90,23 @@ def _remove_double_and_superset_clauses(matrix: np.ndarray) -> tuple[np.ndarray,
     return matrix, False
 
 
-def _remove_only_positive_or_negative_variables(matrix: np.ndarray) -> tuple[np.ndarray, bool]:
+def _remove_pure_literals(matrix: np.ndarray) -> tuple[np.ndarray, bool]:
     to_remove_clauses = set()
     to_remove_literals = set()
     for j in range(0, matrix.shape[1], 2):
-        if (not np.any(matrix[:, j])) or (not np.any(matrix[:, j+1])):
+        if (not np.any(matrix[:, j])) or (not np.any(matrix[:, j + 1])):
             # 2. Remove all clauses containing this variable (positive or negative)
             for k in range(matrix.shape[0]):
-                if matrix[k, j] == 1 or matrix[k, j+1] == 1:
+                if matrix[k, j] == 1 or matrix[k, j + 1] == 1:
                     to_remove_clauses.add(k)
             # 3. Remove this variable
             to_remove_literals.add(j)
-            to_remove_literals.add(j+1)
+            to_remove_literals.add(j + 1)
 
     if len(to_remove_clauses) > 0 or len(to_remove_literals) > 0:
         matrix = _remove_clauses_and_literals(matrix, to_remove_clauses, to_remove_literals)
         return matrix, True
+
     return matrix, False
 
 
@@ -190,7 +191,7 @@ def _normalize_to_core_step(matrix: np.ndarray) -> tuple[np.ndarray, bool]:
         return matrix, True
 
     # Remove literals only occurring in positive or negative form
-    matrix, changed = _remove_only_positive_or_negative_variables(matrix)
+    matrix, changed = _remove_pure_literals(matrix)
     if changed:
         return matrix, True
 
@@ -202,7 +203,7 @@ def _normalize_to_core_step(matrix: np.ndarray) -> tuple[np.ndarray, bool]:
     return matrix, False
 
 
-def normalize_formula_to_core(instance: Instance):
+def normalize_formula_to_core(instance: Instance) -> Instance:
     """
     Reduce to the "problem core"
 
@@ -218,7 +219,7 @@ def normalize_formula_to_core(instance: Instance):
     iter_count = 0
     while True:
 
-        instance.bit_matrix, changed = _normalize_to_core_step(instance.bit_matrix)
+        updated_bit_matrix, changed = _normalize_to_core_step(instance.bit_matrix)
 
         if changed:
             iter_count += 1
@@ -226,6 +227,7 @@ def normalize_formula_to_core(instance: Instance):
             break
 
     print(f"Normalizing to problem core took {iter_count} iterations")
+    return get_instance_from_bit_matrix(updated_bit_matrix)
 
 
 def is_formula_core(instance: Instance) -> bool:

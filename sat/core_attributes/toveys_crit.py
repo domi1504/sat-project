@@ -20,10 +20,10 @@ def is_tovey_satisfied(instance: Instance) -> bool:
     """
 
     # Length of shortest clause
-    k = np.min([np.sum(clause) for clause in instance.bit_matrix])
+    k = min([len(clause) for clause in instance.clauses])
 
     # For every variable: how often does it occur?
-    for variable_index in range(instance.nr_vars()):
+    for variable_index in range(instance.num_variables):
 
         # If #positive_occurences + #negative_occurences > k: Can be unsatisfiable.
         if np.sum(instance.bit_matrix[:, 2 * variable_index]) + np.sum(instance.bit_matrix[:, 2 * variable_index + 1]) > k:

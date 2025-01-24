@@ -1,6 +1,5 @@
 import numpy as np
-from sat.instance.instance import Instance
-
+from sat.instance.instance import Instance, get_instance_from_bit_matrix
 
 """
 Bit-Matrix
@@ -44,12 +43,12 @@ def parse_bit_matrix(matrix: str) -> Instance:
     nr_clauses = len(lines)
     nr_vars = len(lines[0]) // 2
 
-    arr = np.zeros([nr_clauses, nr_vars * 2], dtype=np.uint8)
+    bit_matrix = np.zeros([nr_clauses, nr_vars * 2], dtype=np.uint8)
     for line_count in range(nr_clauses):
         for char_count in range(nr_vars * 2):
-            arr[line_count, char_count] = int(lines[line_count][char_count])
+            bit_matrix[line_count, char_count] = int(lines[line_count][char_count])
 
-    return Instance(arr)
+    return get_instance_from_bit_matrix(bit_matrix)
 
 
 def write_bit_matrix(instance: Instance) -> str:

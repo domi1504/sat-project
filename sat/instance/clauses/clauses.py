@@ -11,6 +11,25 @@ E.g.
 """
 
 
+def are_clauses_empty(clauses: set[tuple[int, ...]]) -> bool:
+    return sum(len(c) for c in clauses) == 0
+
+
+def count_number_variables(clauses: set[tuple[int, ...]]) -> int:
+    """
+    Count number of contained variables.
+
+    :param clauses:
+    :return:
+    """
+
+    variables = set()
+    for clause in clauses:
+        for lit in clause:
+            variables.add(abs(lit))
+    return len(variables)
+
+
 def clauses_valid(clauses: set[tuple[int, ...]]) -> bool:
 
     # Check datatypes
@@ -21,6 +40,7 @@ def clauses_valid(clauses: set[tuple[int, ...]]) -> bool:
             if type(lit) != int:
                 return False
 
+    # Variables are 1-based
     for clause in clauses:
         for lit in clause:
             if lit == 0:

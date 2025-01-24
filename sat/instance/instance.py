@@ -1,28 +1,51 @@
 import numpy as np
 
 from sat.instance.bit_matrix.bit_matrix import bit_matrix_valid, clauses_to_bit_matrix
-from sat.instance.clauses.clauses import bit_matrix_to_clauses, clauses_valid
+from sat.instance.clauses.clauses import bit_matrix_to_clauses, clauses_valid, are_clauses_empty, count_number_variables
 
 
 class Instance:
 
-    def __init__(self, bit_matrix: np.ndarray):
-        self.bit_matrix: np.ndarray = bit_matrix
-        self.clauses: set[tuple[int, ...]] = bit_matrix_to_clauses(self.bit_matrix)
-        assert bit_matrix_valid(self.bit_matrix)
+    def __init__(self, clauses: set[tuple[int, ...]]):
+        self.clauses: set[tuple[int, ...]] = clauses
         assert clauses_valid(self.clauses)
 
+        # Compute bit matrix if possible
+        if len(self.clauses) > 0 and not are_clauses_empty(self.clauses):
+            self.bit_matrix: np.ndarray = clauses_to_bit_matrix(self.clauses)
+            assert bit_matrix_valid(self.bit_matrix)
+
+        self.num_clauses = len(self.clauses)
+        self.num_variables = count_number_variables(self.clauses)
+
     def __str__(self):
-        return f"Instance with {self.nr_vars()} variables and {self.nr_clauses()} clauses"
-
-    def nr_clauses(self):
-        return self.bit_matrix.shape[0]
-
-    def nr_vars(self):
-        return self.bit_matrix.shape[1] // 2
+        return f"Instance with {self.num_variables} variables and {self.num_clauses} clauses"
 
 
 def get_instance_from_clauses(clauses: set[tuple[int, ...]]) -> Instance:
-    matrix = clauses_to_bit_matrix(clauses)
-    return Instance(matrix)
+
+    # Normalize clauses: 1-based, vars from exactly [1, ..., n]
+    normalized_clauses = set()
+
+    # Count variables & create mapping to indices
+    var_name_map = {}
+    cur_var_name = 1
+    for clause in clauses:
+        for lit in clause:
+            var = abs(lit)
+            if var not in var_name_map.keys():
+                var_name_map[var] = cur_var_name
+                cur_var_name += 1
+
+    # Fill normalized clauses
+    for clause in clauses:
+        renamed_clause = tuple((1 if lit > 0 else -1) * var_name_map[abs(lit)] for lit in clause)
+        normalized_clauses.add(renamed_clause)
+
+    return Instance(normalized_clauses)
+
+
+def get_instance_from_bit_matrix(matrix: np.ndarray) -> Instance:
+    clauses = bit_matrix_to_clauses(matrix)
+    return Instance(clauses)
 

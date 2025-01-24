@@ -14,14 +14,14 @@ def is_satisfiable_2_sat(instance: Instance) -> bool:
     :param instance:
     :return:
     """
-    assert is_2_sat(instance)
+    assert is_2_sat(instance), "Not a 2-SAT instance"
 
     # Build implication graph
     implication_graph = nx.DiGraph()
 
     # Two nodes per variable
-    implication_graph.add_nodes_from([i+1 for i in range(instance.nr_vars())])
-    implication_graph.add_nodes_from([-(i+1) for i in range(instance.nr_vars())])
+    implication_graph.add_nodes_from([i+1 for i in range(instance.num_variables)])
+    implication_graph.add_nodes_from([-(i+1) for i in range(instance.num_variables)])
 
     # For each clause (x, y) add 2 edges: (-x -> y), (-y, x)
     for clause in instance.clauses:
