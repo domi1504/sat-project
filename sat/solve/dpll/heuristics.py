@@ -1,8 +1,5 @@
 from random import random
-from typing import Callable
-from sat.core_attributes.pure_literal import get_pure_literal
 from sat.instance.instance import Instance
-from sat.modify.assign_and_simplify import assign_and_simplify
 from collections import Counter
 
 

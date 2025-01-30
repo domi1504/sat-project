@@ -11,18 +11,14 @@ from sat.solve.dpll.dpll import is_satisfiable_dpll
 from sat.solve.dpll.heuristics import dlis
 from sat.solve.two_sat import is_satisfiable_2_sat
 
-file_path = './samples/uf20_91/uf20-01.cnf'
+file_path = './samples/dimacs_cnf/2.txt'
 
 with open(file_path, 'r') as file:
     file_content = file.read()
 
 inst = parse_dimacs_cnf(file_content)
 
-t = time.time()
-is_satisfiable_brute_force(inst)
+i2 = assign_and_simplify(inst, {16: False})
 
-print(f"Brute force took {time.time() - t} ")
-t = time.time()
-
-is_satisfiable_dpll(inst, dlis)
-print(f"DPLL-dlis took {time.time() - t} ")
+print(i2)
+# todo. make sure variables do not get renamed when parsing dimacs?

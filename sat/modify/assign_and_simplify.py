@@ -1,31 +1,31 @@
 from sat.instance.instance import Instance, get_instance_from_clauses
 
 
-def assign_and_simplify(instance: Instance, variable: int, value: bool) -> Instance:
+def assign_and_simplify(instance: Instance, assignments: dict[int, bool]) -> Instance:
     """
-    Assign a value to a variable at specified index and simplify the resulting clauses.
+    Assign values to variables at specified indices and simplify the resulting clauses.
     Return a new instance.
 
     :param instance:
-    :param variable: 1-based
-    :param value:
+    :param assignments: Dict of form {1: True, 4: False, ...} assigning bool values to specified variables.
+        Variables are 1-based.
     :return:
     """
-    assert 1 <= variable <= instance.num_variables
+    for var in assignments.keys():
+        assert 1 <= var <= instance.num_variables
 
-    literal_true = variable if value else -variable
-    literal_false = -variable if value else variable
+    literals_true = list((variable if value else -variable) for (variable, value) in assignments.items())
+    literals_false = list((-variable if value else variable) for (variable, value) in assignments.items())
 
-    # Remove clauses containing the satisfied literal
+    # Remove clauses containing at least one satisfied literal
     # (Convert clauses from tuples to lists for easier deletion of not-satisfied literal)
-    clauses = list(list(clause) for clause in instance.clauses if not literal_true in clause)
+    clauses = list(list(clause) for clause in instance.clauses if not any(lit in clause for lit in literals_true))
 
-    # Remove literal from clauses containing the not-satisfied literal
+    # Remove negated literals from clauses containing the not-satisfied literals
     for clause in clauses:
-        if literal_false in clause:
-            clause.remove(literal_false)
+        for literal_false in literals_false:
+            if literal_false in clause:
+                clause.remove(literal_false)
 
     clauses = set(tuple(clause) for clause in clauses)
-
     return get_instance_from_clauses(clauses)
-
