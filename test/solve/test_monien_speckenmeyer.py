@@ -3,13 +3,18 @@ import pytest
 from sat.encoding.dimacs_cnf import parse_dimacs_cnf
 from sat.solve.monien_speckenmeyer import is_satisfiable_monien_speckenmeyer
 
+# Turn self-sufficient assignment check on/off
+self_sufficient_assignment_checks = [True, False]
+
 # All satisfiable
 directory = "../samples/uf20_91"
 # Get all .cnf files in the directory
 cnf_files = [f for f in sorted(os.listdir(directory)) if f.endswith(".cnf")][:100]
 
+
 @pytest.mark.parametrize("filename", cnf_files)
-def test_is_satisfiable_ms_uf20_91(filename):
+@pytest.mark.parametrize("self_sufficient_assignment_check", self_sufficient_assignment_checks)
+def test_is_satisfiable_ms_uf20_91(filename, self_sufficient_assignment_check):
     """
     Check for every instance of the uf20_91 whether True is returned.
 
@@ -25,7 +30,7 @@ def test_is_satisfiable_ms_uf20_91(filename):
         inst = parse_dimacs_cnf(content)
 
         # Solve instance
-        result = is_satisfiable_monien_speckenmeyer(inst)
+        result = is_satisfiable_monien_speckenmeyer(inst, self_sufficient_assignment_check)
         assert result == True
 
 
@@ -36,7 +41,8 @@ directory2 = "../samples/uuf50_218"
 cnf_files2 = [f for f in sorted(os.listdir(directory2)) if f.endswith(".cnf")][:10]
 
 @pytest.mark.parametrize("filename", cnf_files2)
-def test_is_satisfiable_ms_uuf50_218(filename):
+@pytest.mark.parametrize("self_sufficient_assignment_check", self_sufficient_assignment_checks)
+def test_is_satisfiable_ms_uuf50_218(filename, self_sufficient_assignment_check):
     """
     Check for every instance of the uf50_218 whether False is returned.
 
@@ -52,5 +58,5 @@ def test_is_satisfiable_ms_uuf50_218(filename):
         inst = parse_dimacs_cnf(content)
 
         # Solve instance
-        result = is_satisfiable_monien_speckenmeyer(inst)
+        result = is_satisfiable_monien_speckenmeyer(inst, self_sufficient_assignment_check)
         assert result == False

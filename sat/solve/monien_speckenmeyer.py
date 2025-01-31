@@ -1,11 +1,13 @@
+from sat.core_attributes.self_sufficient_assignment import is_self_sufficient_assignment
 from sat.instance.instance import Instance
 from sat.modify.assign_and_simplify import assign_and_simplify
 
 
-def is_satisfiable_monien_speckenmeyer(instance: Instance) -> bool:
+def is_satisfiable_monien_speckenmeyer(instance: Instance, with_self_sufficient_assignments_check: bool) -> bool:
     """
 
     :param instance:
+    :param with_self_sufficient_assignments_check: "autarke" Belegungen in Schöning.
     :return:
     """
 
@@ -23,6 +25,24 @@ def is_satisfiable_monien_speckenmeyer(instance: Instance) -> bool:
     # Get first min-length clause
     clause = next(c for c in instance.clauses if len(c) == k)
 
+    if with_self_sufficient_assignments_check:
+        for i in range(k):
+
+            # Assume clause is: (1, -4, 8, 11, -12)
+            # Create assignment turning all literals until i to False, and i to True
+            # e.g. i = 3
+            # {1: False, -4: False, 8: True}
+            assignments = {}
+            for j in range(i):
+                assignments[abs(clause[j])] = clause[j] < 0
+            assignments[abs(clause[i])] = clause[i] > 0
+
+            if is_self_sufficient_assignment(instance, assignments):
+                return is_satisfiable_monien_speckenmeyer(
+                    assign_and_simplify(instance, assignments),
+                    with_self_sufficient_assignments_check
+                )
+
     # Start: Try with i = 1, i = 2, ...
     for i in range(k):
 
@@ -35,7 +55,10 @@ def is_satisfiable_monien_speckenmeyer(instance: Instance) -> bool:
             assignments[abs(clause[j])] = clause[j] < 0
         assignments[abs(clause[i])] = clause[i] > 0
 
-        if is_satisfiable_monien_speckenmeyer(assign_and_simplify(instance, assignments)):
+        if is_satisfiable_monien_speckenmeyer(
+            assign_and_simplify(instance, assignments),
+            with_self_sufficient_assignments_check
+        ):
             return True
 
     return False

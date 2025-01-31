@@ -1,6 +1,7 @@
 import time
 
 from sat.core_attributes.renamable_horn import is_renamable_horn
+from sat.core_attributes.self_sufficient_assignment import is_self_sufficient_assignment
 from sat.encoding.dimacs_cnf import parse_dimacs_cnf, write_dimacs_cnf
 from sat.instance.clauses.clauses import clauses_valid
 from sat.modify.assign_and_simplify import assign_and_simplify
@@ -18,7 +19,6 @@ with open(file_path, 'r') as file:
 
 inst = parse_dimacs_cnf(file_content)
 
-i2 = assign_and_simplify(inst, {16: False})
+is_self_sufficient_assignment(inst, {9: False, 10: True})
 
-print(i2)
 # todo. make sure variables do not get renamed when parsing dimacs?
