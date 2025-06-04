@@ -16,26 +16,51 @@ E.g.
 
 def create_graph_by_clauses(instance: Instance) -> nx.Graph:
 
-    # Matrix: #clauses x #variables
-    var_occs = np.zeros((instance.bit_matrix.shape[0], instance.bit_matrix.shape[1] // 2), dtype=np.uint8)
-    for i in range(var_occs.shape[0]):
-        for j in range(var_occs.shape[1]):
-            var_occs[i, j] = instance.bit_matrix[i, 2 * j] or instance.bit_matrix[i, 2 * j + 1]
-
     g = nx.Graph()
 
     # One node per clause
     g.add_nodes_from(list(range(instance.num_clauses)))
 
     # Add edges
-    for i in range(instance.num_clauses):
-        for j in range(instance.num_clauses):
 
-            if i == j:
-                continue
+    # Look at all distinct clause pairs
+    for i in range(instance.num_clauses - 1):
+        for j in range(i + 1, instance.num_clauses):
 
-            if 2 in (var_occs[i] + var_occs[j]):
-                if (i, j) not in g.edges:
-                    g.add_edge(i, j)
+            shared_variables = []
+
+            # For each variable: check if it is contained in both clauses
+            for k in range(instance.num_variables):
+                if 1 in instance.bit_matrix[i, 2 * k : 2 * k + 2] and 1 in instance.bit_matrix[j, 2 * k : 2 * k + 2]:
+                    shared_variables.append(str(k))
+
+            if len(shared_variables) > 0:
+                g.add_edge(i, j, shared_variables=','.join(shared_variables))
 
     return g
+
+def create_multi_graph_by_clauses(instance: Instance) -> nx.MultiGraph:
+    """
+    One edge per shared variable.
+    :param instance:
+    :return:
+    """
+
+    g = nx.MultiGraph()
+
+    # One node per clause
+    g.add_nodes_from(list(range(instance.num_clauses)))
+
+    # Add edges
+
+    # Look at all distinct clause pairs
+    for i in range(instance.num_clauses - 1):
+        for j in range(i + 1, instance.num_clauses):
+
+            # For each variable: check if it is contained in both clauses
+            for k in range(instance.num_variables):
+                if 1 in instance.bit_matrix[i, 2 * k : 2 * k + 2] and 1 in instance.bit_matrix[j, 2 * k : 2 * k + 2]:
+                    g.add_edge(i, j, shared_variable=k)
+
+    return g
+

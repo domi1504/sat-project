@@ -15,6 +15,7 @@ In this project, I want to grapple with the satisfiability problem (SAT).
   - Bit-Matrix
 - Visualize CNFs
   - Bit-Matrix (per literal or variable)
+  - Clause-Shared-Variables-Graph
   - Clause-Literal-Graph
   - Variable-Interaction-Graph
 - Extract the "core" of a SAT-instance (of course in poly-time)
@@ -44,6 +45,7 @@ In this project, I want to grapple with the satisfiability problem (SAT).
 
 - Get some sample SAT instances from online benchmarks
 - Run those algorithms against sample instances and measure their performance (not really important, since not optimized anyway)
+- Write a little docu / wiki about the algorithms / ideas
 - Get a feeling for what instance sizes are possible to deal with nowadays
 - Get to know the State-Of-The-Art SAT solvers, and on what base approaches they are building upon
 
@@ -66,6 +68,7 @@ In this project, I want to grapple with the satisfiability problem (SAT).
 
 - Das Erfüllbarkeitsproblem SAT (Schöning, [siehe hier](https://www.google.de/books/edition/Das_Erf%C3%BCllbarkeitsproblem_SAT/55HzCQAAQBAJ?hl=de&gbpv=0))
 - TAOCP, 4B (Knuth)
+- Handbook von Biere?
 
 ## Random more ideas
 
