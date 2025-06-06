@@ -17,7 +17,6 @@ def is_self_sufficient_assignment(instance: Instance, assignment: dict[int, bool
     :param assignment:
     :return:
     """
-    assert all(1 <= var <= instance.num_variables for var in assignment.keys()), "invalid assignment for given instance"
 
     assigned_variables = list(assignment.keys())
     true_literals = list((variable if value else -variable) for (variable, value) in assignment.items())

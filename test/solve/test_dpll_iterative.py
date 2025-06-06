@@ -1,7 +1,7 @@
 import os
 import pytest
 from sat.encoding.dimacs_cnf import parse_dimacs_cnf
-from sat.solve.dpll.dpll import is_satisfiable_dpll
+from sat.solve.dpll.dpll import is_satisfiable_dpll_recursive
 from sat.solve.dpll.heuristics import jeroslaw_wang, jeroslaw_wang_two_sided, shortest_clause, dlis, dlcs, rdlcs, mom
 
 
@@ -30,7 +30,7 @@ def test_is_satisfiable_dpll_uf20_91(filename, heuristic):
         inst = parse_dimacs_cnf(content)
 
         # Solve instance
-        result = is_satisfiable_dpll(inst, heuristic)
+        result = is_satisfiable_dpll_recursive(inst, heuristic)
         assert result == True
 
 
@@ -58,5 +58,5 @@ def test_is_satisfiable_dpll_uuf50_218(filename, heuristic):
         inst = parse_dimacs_cnf(content)
 
         # Solve instance
-        result = is_satisfiable_dpll(inst, heuristic)
+        result = is_satisfiable_dpll_recursive(inst, heuristic)
         assert result == False

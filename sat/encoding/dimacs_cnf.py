@@ -1,4 +1,4 @@
-from sat.instance.instance import Instance, get_instance_from_clauses
+from sat.instance.instance import Instance, normalize_clauses
 import re
 
 
@@ -86,7 +86,7 @@ def parse_dimacs_cnf(dimacs_cnf: str) -> Instance:
         clause = tuple(int(lit) for lit in clause_as_str)
         clauses.add(clause)
 
-    return get_instance_from_clauses(clauses)
+    return Instance(normalize_clauses(clauses))
 
 
 def write_dimacs_cnf(instance: Instance) -> str:

@@ -1,4 +1,4 @@
-from sat.instance.instance import Instance, get_instance_from_clauses
+from sat.instance.instance import Instance
 
 
 def assign_and_simplify(instance: Instance, assignments: dict[int, bool]) -> Instance:
@@ -11,8 +11,6 @@ def assign_and_simplify(instance: Instance, assignments: dict[int, bool]) -> Ins
         Variables are 1-based.
     :return:
     """
-    for var in assignments.keys():
-        assert 1 <= var <= instance.num_variables
 
     literals_true = list((variable if value else -variable) for (variable, value) in assignments.items())
     literals_false = list((-variable if value else variable) for (variable, value) in assignments.items())
@@ -28,4 +26,4 @@ def assign_and_simplify(instance: Instance, assignments: dict[int, bool]) -> Ins
                 clause.remove(literal_false)
 
     clauses = set(tuple(clause) for clause in clauses)
-    return get_instance_from_clauses(clauses)
+    return Instance(clauses)

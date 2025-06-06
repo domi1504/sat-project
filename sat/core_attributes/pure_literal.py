@@ -21,10 +21,9 @@ def get_pure_literal(instance: Instance) -> Optional[int]:
             found_literals.add(lit)
 
     for variable in range(1, instance.num_variables):
-        assert variable in found_literals or -variable in found_literals
-        if -variable not in found_literals:
+        if -variable not in found_literals and variable in found_literals:
             return variable
-        elif variable not in found_literals:
+        elif variable not in found_literals and -variable in found_literals:
             return -variable
 
     return None

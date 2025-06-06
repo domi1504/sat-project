@@ -30,7 +30,7 @@ def count_number_variables(clauses: set[tuple[int, ...]]) -> int:
     return len(variables)
 
 
-def clauses_valid(clauses: set[tuple[int, ...]]) -> bool:
+def clauses_valid(clauses: set[tuple[int, ...]], variables_perfectly_1_to_n: bool = False) -> bool:
 
     # Check datatypes
     for clause in clauses:
@@ -45,6 +45,10 @@ def clauses_valid(clauses: set[tuple[int, ...]]) -> bool:
         for lit in clause:
             if lit == 0:
                 return False
+
+    if not variables_perfectly_1_to_n:
+        # Do not check following property
+        return True
 
     # Check that only variables from exactly  [1, ..., n] (not more, not less!)
     variables = set()

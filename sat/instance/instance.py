@@ -21,8 +21,15 @@ class Instance:
     def __str__(self):
         return f"Instance with {self.num_variables} variables and {self.num_clauses} clauses"
 
+    def get_all_variables(self) -> set[int]:
+        all_variables = set()
+        for clause in self.clauses:
+            for lit in clause:
+                all_variables.add(abs(lit))
+        return all_variables
 
-def get_instance_from_clauses(clauses: set[tuple[int, ...]]) -> Instance:
+
+def normalize_clauses(clauses: set[tuple[int, ...]]) -> set[tuple[int, ...]]:
 
     # Normalize clauses: 1-based, vars from exactly [1, ..., n]
     normalized_clauses = set()
@@ -42,7 +49,7 @@ def get_instance_from_clauses(clauses: set[tuple[int, ...]]) -> Instance:
         renamed_clause = tuple((1 if lit > 0 else -1) * var_name_map[abs(lit)] for lit in clause)
         normalized_clauses.add(renamed_clause)
 
-    return Instance(normalized_clauses)
+    return normalized_clauses
 
 
 def get_instance_from_bit_matrix(matrix: np.ndarray) -> Instance:

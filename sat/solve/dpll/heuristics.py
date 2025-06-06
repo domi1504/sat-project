@@ -52,7 +52,7 @@ def dlcs(instance: Instance) -> int:
     counts = Counter(all_literals)
 
     # Find the variable with the most occurrences (smallest in case of conflict)
-    candidates = list(range(1, instance.num_variables + 1))
+    candidates = list(instance.get_all_variables())
     highest_occurrence_variable = max(candidates, key=lambda n: (counts.get(n, 0) + counts.get(-n, 0), n))
 
     if counts.get(highest_occurrence_variable, 0) >= counts.get(-highest_occurrence_variable, 0):
@@ -78,7 +78,7 @@ def rdlcs(instance: Instance) -> int:
     counts = Counter(all_literals)
 
     # Find the variable with the most occurrences (smallest in case of conflict)
-    candidates = list(range(1, instance.num_variables + 1))
+    candidates = list(instance.get_all_variables())
     highest_occurrence_variable = max(candidates, key=lambda n: (counts.get(n, 0) + counts.get(-n, 0), n))
 
     if random() < 0.5:
@@ -106,11 +106,11 @@ def mom(instance: Instance) -> int:
     counts_in_k_clauses = Counter(all_literals_of_k_clauses)
 
     # Find the variables with the most occurrences
-    candidates = list(range(1, instance.num_variables + 1))
+    candidates = list(instance.get_all_variables())
     max_value = max(counts_in_k_clauses.get(n, 0) + counts_in_k_clauses.get(-n, 0) for n in candidates)
 
     # Find the variables with the most occurrences
-    candidates = list(range(1, instance.num_variables + 1))
+    candidates = list(instance.get_all_variables())
 
     # Collect all numbers that achieve this max value
     candidates = list(
@@ -172,7 +172,7 @@ def jeroslaw_wang_two_sided(instance: Instance) -> int:
             scores[lit] = scores.get(lit, 0) + 2 ** (-len(clause))
 
     # Get variable with best score (in case of conflict, take smaller variable)
-    candidates = list(range(1, instance.num_variables + 1))
+    candidates = list(instance.get_all_variables())
     highscore_variable = max(candidates, key=lambda n: (scores.get(n, 0) + scores.get(-n, 0), -n))
 
     if scores.get(highscore_variable, 0) >= scores.get(-highscore_variable, 0):
