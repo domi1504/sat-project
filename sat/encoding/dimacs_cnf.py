@@ -79,12 +79,12 @@ def parse_dimacs_cnf(dimacs_cnf: str) -> Instance:
         raise Exception("Dimacs-cnf syntax check failed")
 
     # Parse clauses
-    clauses = set()
+    clauses = []
     for line in lines[1:]:
         # Parse clause
         clause_as_str = tuple(line.split(" ")[:-1])
         clause = tuple(int(lit) for lit in clause_as_str)
-        clauses.add(clause)
+        clauses.append(clause)
 
     return Instance(normalize_clauses(clauses))
 

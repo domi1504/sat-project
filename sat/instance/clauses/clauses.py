@@ -11,26 +11,11 @@ E.g.
 """
 
 
-def are_clauses_empty(clauses: set[tuple[int, ...]]) -> bool:
+def are_clauses_empty(clauses: list[tuple[int, ...]]) -> bool:
     return sum(len(c) for c in clauses) == 0
 
 
-def count_number_variables(clauses: set[tuple[int, ...]]) -> int:
-    """
-    Count number of contained variables.
-
-    :param clauses:
-    :return:
-    """
-
-    variables = set()
-    for clause in clauses:
-        for lit in clause:
-            variables.add(abs(lit))
-    return len(variables)
-
-
-def clauses_valid(clauses: set[tuple[int, ...]], variables_perfectly_1_to_n: bool = False) -> bool:
+def clauses_valid(clauses: list[tuple[int, ...]], variables_perfectly_1_to_n: bool = False) -> bool:
 
     # Check datatypes
     for clause in clauses:
@@ -64,9 +49,9 @@ def clauses_valid(clauses: set[tuple[int, ...]], variables_perfectly_1_to_n: boo
     return True
 
 
-def bit_matrix_to_clauses(bit_matrix: np.ndarray) -> set[tuple[int, ...]]:
+def bit_matrix_to_clauses(bit_matrix: np.ndarray) -> list[tuple[int, ...]]:
 
-    clauses = set()
+    clauses = []
     for row in bit_matrix:
         clause = []
         for pos in np.where(row)[0]:
@@ -82,7 +67,7 @@ def bit_matrix_to_clauses(bit_matrix: np.ndarray) -> set[tuple[int, ...]]:
                 # Negative literal
                 clause.append(-variable)
 
-        clauses.add(tuple(clause))
+        clauses.append(tuple(clause))
 
     return clauses
 

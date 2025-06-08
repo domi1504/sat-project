@@ -25,5 +25,5 @@ def assign_and_simplify(instance: Instance, assignments: dict[int, bool]) -> Ins
             if literal_false in clause:
                 clause.remove(literal_false)
 
-    clauses = set(tuple(clause) for clause in clauses)
+    clauses = list(tuple(clause) for clause in clauses)
     return Instance(clauses)

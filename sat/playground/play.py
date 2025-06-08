@@ -8,7 +8,7 @@ from sat.modify.assign_and_simplify import assign_and_simplify
 from sat.solve.brute_force import is_satisfiable_brute_force
 import os
 
-from sat.solve.dpll.dpll_iterative import is_satisfiable_dpll_iterative
+from sat.solve.dpll.dpll import is_satisfiable_dpll
 from sat.solve.dpll.dpll_recursive import is_satisfiable_dpll_recursive
 from sat.solve.dpll.heuristics import dlis
 from sat.solve.two_sat import is_satisfiable_2_sat
@@ -20,7 +20,7 @@ with open(file_path, 'r') as file:
 
 inst = parse_dimacs_cnf(file_content)
 
-is_satisfiable_dpll_iterative(inst, dlis)
+is_satisfiable_dpll(inst, dlis)
 
 
 # todo. make sure variables do not get renamed when parsing dimacs?

@@ -5,7 +5,7 @@ from sat.modify.assign_and_simplify import assign_and_simplify
 from sat.solve.dpll.dpll_node import DPLLNode
 
 
-def is_satisfiable_dpll_iterative(input_instance: Instance, heuristic: Callable[[Instance], int]) -> bool:
+def is_satisfiable_dpll(input_instance: Instance, heuristic: Callable[[Instance], int]) -> bool:
     """
 
     :param input_instance:

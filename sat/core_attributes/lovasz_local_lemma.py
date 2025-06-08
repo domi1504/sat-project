@@ -27,15 +27,17 @@ def is_lll_satisfied(instance: Instance) -> bool:
         false <--> trivially satisfiable (due to lll)
     """
 
-    k = np.sum(instance.bit_matrix[0])
-    for clause in instance.bit_matrix:
+    bit_matrix = instance.get_bit_matrix()
+
+    k = np.sum(bit_matrix[0])
+    for clause in bit_matrix:
         if np.sum(clause) != k:
             raise Exception("LLL not applicable, because not every clause has same length k")
 
-    var_occs = np.zeros((instance.bit_matrix.shape[0], instance.bit_matrix.shape[1] // 2), dtype=np.uint8)
+    var_occs = np.zeros((bit_matrix.shape[0], bit_matrix.shape[1] // 2), dtype=np.uint8)
     for i in range(var_occs.shape[0]):
         for j in range(var_occs.shape[1]):
-            var_occs[i, j] = instance.bit_matrix[i, 2*j] or instance.bit_matrix[i, 2*j+1]
+            var_occs[i, j] = bit_matrix[i, 2*j] or bit_matrix[i, 2*j+1]
 
     for i in range(instance.num_clauses):
 

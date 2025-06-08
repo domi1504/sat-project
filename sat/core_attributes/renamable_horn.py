@@ -9,7 +9,7 @@ Referenz: Schöning.
 def is_renamable_horn(instance: Instance):
 
     # Build check instance F*
-    clauses_check = set()
+    clauses_check = []
 
     for clause in instance.clauses:
 
@@ -20,7 +20,7 @@ def is_renamable_horn(instance: Instance):
                 # Add to clauses_check if not inside yet
                 a, b = clause[i], clause[j]
                 if not (a, b) in clauses_check and (b, a) not in clauses_check:
-                    clauses_check.add((a, b))
+                    clauses_check.append((a, b))
 
     instance_check = Instance(clauses_check)
 

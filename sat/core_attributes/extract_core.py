@@ -219,7 +219,7 @@ def normalize_formula_to_core(instance: Instance) -> Instance:
     iter_count = 0
     while True:
 
-        updated_bit_matrix, changed = _normalize_to_core_step(instance.bit_matrix)
+        updated_bit_matrix, changed = _normalize_to_core_step(instance.get_bit_matrix())
 
         if changed:
             iter_count += 1
@@ -239,7 +239,7 @@ def is_formula_core(instance: Instance) -> bool:
     :param instance:
     :return:
     """
-    matrix_copy = copy.deepcopy(instance.bit_matrix)
+    matrix_copy = copy.deepcopy(instance.get_bit_matrix())
     _, changed = _normalize_to_core_step(matrix_copy)
 
     if changed:

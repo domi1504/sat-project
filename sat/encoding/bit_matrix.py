@@ -53,7 +53,7 @@ def parse_bit_matrix(matrix: str) -> Instance:
 
 def write_bit_matrix(instance: Instance) -> str:
     lines = ""
-    for row in instance.bit_matrix:
+    for row in instance.get_bit_matrix():
         lines += str(row).replace(" ", "").replace("[", "").replace("]", "")
         lines += "\n"
     return lines

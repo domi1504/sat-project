@@ -33,7 +33,7 @@ def bit_matrix_valid(matrix: np.ndarray) -> bool:
     return True
 
 
-def clauses_to_bit_matrix(clauses: set[tuple[int, ...]]) -> np.ndarray:
+def clauses_to_bit_matrix(clauses: list[tuple[int, ...]]) -> np.ndarray:
 
     num_clauses = len(clauses)
 

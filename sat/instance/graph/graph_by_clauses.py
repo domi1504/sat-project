@@ -1,4 +1,3 @@
-import numpy as np
 import networkx as nx
 from sat.instance.instance import Instance
 
@@ -31,7 +30,7 @@ def create_graph_by_clauses(instance: Instance) -> nx.Graph:
 
             # For each variable: check if it is contained in both clauses
             for k in range(instance.num_variables):
-                if 1 in instance.bit_matrix[i, 2 * k : 2 * k + 2] and 1 in instance.bit_matrix[j, 2 * k : 2 * k + 2]:
+                if 1 in instance.get_bit_matrix()[i, 2 * k : 2 * k + 2] and 1 in instance.get_bit_matrix()[j, 2 * k : 2 * k + 2]:
                     shared_variables.append(str(k))
 
             if len(shared_variables) > 0:
