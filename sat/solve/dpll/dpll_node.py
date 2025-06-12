@@ -21,11 +21,26 @@ class DPLLNode:
 class CDCLNode(DPLLNode):
 
     # A DPLLNode with additional attributes
-    def __init__(self, instance: Instance, assignments: List[int], decision_level: int, antecedent: dict):
+    def __init__(
+        self,
+        instance: Instance,
+        assignments: List[int],
+        decision_levels: dict,
+        antecedent: dict,
+        indices_in_original: list[int],
+    ):
         super().__init__(instance, assignments)
 
-        # This is the decision level of this node (= number of set decision variables up to this point)
-        self.decision_level = decision_level
+        # For each clause in instance.clauses:
+        #   what is the index of the corresponding original clause in the original input instance
+        self.indices_in_original: list[int] = indices_in_original
 
-        # For every variable in the assignment, what was the clause implying its value (in unit prop or pure lit)?
-        self.antecedent = antecedent
+        # For every variable in the assignment, what is its decision level (= number of set decision variables up & incl. to this point)
+        self.decision_levels: dict = decision_levels
+
+        # For every variable in the assignment, what was the clause implying its value (in unit prop)?
+        # The values of this dict are ints, the index of the clause in "global" all_clauses list.
+        self.antecedent: dict = antecedent
+
+    def get_max_decision_level(self):
+        return max(self.decision_levels.values())

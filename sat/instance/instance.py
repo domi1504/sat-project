@@ -35,6 +35,9 @@ class Instance:
                 all_variables.add(abs(lit))
         return all_variables
 
+    def has_empty_clause(self) -> bool:
+        return any(len(clause) == 0 for clause in self.clauses)
+
 
 def normalize_clauses(clauses: list[tuple[int, ...]]) -> list[tuple[int, ...]]:
 
