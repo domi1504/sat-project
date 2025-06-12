@@ -122,7 +122,7 @@ def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: Callable[
 
             # Remove all calls from stack that are above that decision level
             stack = list([
-                node for node in stack if all(level <= backtrack_level for level in node.decision_levels.values())
+                node for node in stack if node.get_max_decision_level() <= backtrack_level
             ])
             
             # Replace current node with backtracked version

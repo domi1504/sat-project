@@ -24,7 +24,7 @@ def is_satisfiable_dpll(input_instance: Instance, heuristic: Callable[[Instance]
             return True
 
         # Check for empty clause -> conflict
-        if any(len(clause) == 0 for clause in current_node.instance.clauses):
+        if current_node.instance.has_empty_clause():
             # Backtrack
             continue
 

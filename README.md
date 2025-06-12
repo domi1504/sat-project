@@ -31,6 +31,7 @@ In this project, I want to grapple with the satisfiability problem (SAT).
   - Tovey's criterium satisfied
   - Not a 2-SAT instance
   - Not a Horn-Instance or Renamable-Horn instance
+  - TODO: Blocked clause elimination? (see https://users.aalto.fi/%7Etjunttil/2020-DP-AUT/notes-sat/preprocessing.html)
 - Detect & solve polynomially solvable SAT-instances (as e.g. horn-clauses), (of course in poly-time)
 
 ## Phase 2
@@ -48,6 +49,7 @@ In this project, I want to grapple with the satisfiability problem (SAT).
 - Write a little docu / wiki about the algorithms / ideas
 - Get a feeling for what instance sizes are possible to deal with nowadays
 - Get to know the State-Of-The-Art SAT solvers, and on what base approaches they are building upon
+  z.b. https://github.com/jaras209/SAT_solver/blob/master/cdcl.py, "2-watched literals" (irgendne art index)
 
 # Phase 3
 
@@ -74,3 +76,8 @@ In this project, I want to grapple with the satisfiability problem (SAT).
 
 - Implement a SAT-solver in a basic language (Assembler, or even TM) (maybe there is something to learn from that?)
 
+## Links
+
+https://pysathq.github.io/
+https://cse442-17f.github.io/Conflict-Driven-Clause-Learning/
+https://users.aalto.fi/%7Etjunttil/2020-DP-AUT/notes-sat/cdcl.html

@@ -38,6 +38,9 @@ class Instance:
     def has_empty_clause(self) -> bool:
         return any(len(clause) == 0 for clause in self.clauses)
 
+    def get_longest_clause_length(self) -> int:
+        return max(len(clause) for clause in self.clauses)
+
 
 def normalize_clauses(clauses: list[tuple[int, ...]]) -> list[tuple[int, ...]]:
 
