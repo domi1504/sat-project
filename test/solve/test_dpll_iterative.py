@@ -35,7 +35,7 @@ def test_is_satisfiable_dpll_iterative_uf20_91(filename, heuristic):
 
 
 # All unsatisfiable
-directory2 = "../samples/uuf50_218"
+directory2 = "../samples/small_unsat"
 # Get all .cnf files in the directory
 # Only first ten since this takes a while
 cnf_files2 = [f for f in sorted(os.listdir(directory2)) if f.endswith(".cnf")][:5]
@@ -50,6 +50,33 @@ def test_is_satisfiable_dpll_iterative_uuf50_218(filename, heuristic):
     """
 
     file_path = os.path.join(directory2, filename)
+
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+
+        # Parse instance
+        inst = parse_dimacs_cnf(content)
+
+        # Solve instance
+        result = is_satisfiable_dpll(inst, heuristic)
+        assert result == False
+
+
+directory3 = "../samples/uuf50_218"
+# Get all .cnf files in the directory
+# Only first ten since this takes a while
+cnf_files3 = [f for f in sorted(os.listdir(directory3)) if f.endswith(".cnf")][:5]
+
+@pytest.mark.parametrize("filename", cnf_files3)
+@pytest.mark.parametrize("heuristic", heuristics)
+def test_is_satisfiable_dpll_iterative_uuf50_218(filename, heuristic):
+    """
+    Check for every instance of the uf50_218 whether False is returned.
+
+    :return:
+    """
+
+    file_path = os.path.join(directory3, filename)
 
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()

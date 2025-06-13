@@ -31,28 +31,27 @@ def test_is_satisfiable_ppz_uf20_91(filename):
 
 
 # All unsatisfiable
-# directory2 = "../samples/uuf50_218"
+directory2 = "../samples/small_unsat"
 # Get all .cnf files in the directory
-# Only first ten since this takes a while
-# cnf_files2 = [f for f in sorted(os.listdir(directory2)) if f.endswith(".cnf")][:10]
+# Only first ones because this takes a while
+cnf_files2 = [f for f in sorted(os.listdir(directory2)) if f.endswith(".cnf")][:3]
 
-# @pytest.mark.parametrize("filename", cnf_files2)
-# def test_is_unsatisfiable_ppz_uuf50_218(filename):
-#     """
-#     Check for every instance of the uf50_218 whether False is returned.
-#
-#     :return:
-#     """
+@pytest.mark.parametrize("filename", cnf_files2)
+def test_is_unsatisfiable_ppz_uuf50_218(filename):
+    """
+    Check for every instance of the uf50_218 whether False is returned.
 
-    # file_path = os.path.join(directory2, filename)
-    #
-    # with open(file_path, 'r', encoding='utf-8') as file:
-    #     content = file.read()
-    #
+    :return:
+    """
+
+    file_path = os.path.join(directory2, filename)
+
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+
         # Parse instance
-        # inst = parse_dimacs_cnf(content)
-        #
+        inst = parse_dimacs_cnf(content)
+
         # Solve instance
-        # result = is_satisfiable_paturi_pudlak_zane(inst, error_rate=1e-8)
-        # assert result == False
-#
+        result = is_satisfiable_paturi_pudlak_zane(inst, error_rate=1e-8)
+        assert result == False

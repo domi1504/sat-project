@@ -15,16 +15,41 @@ from sat.solve.dpll.heuristics import dlis, dlcs
 from sat.solve.paturi_pudlak_zane import is_satisfiable_paturi_pudlak_zane
 from sat.solve.two_sat import is_satisfiable_2_sat
 
-file_path = './samples/uf20_91/uf20-01.cnf'
+# folder_path = './samples/temp'
 # file_path = './samples/dimacs_cnf/1.txt'
 # todo. make sure variables do not get renamed when parsing dimacs?
+from cnfgen import OrderingPrinciple
 
-with open(file_path, 'r') as file:
-    file_content = file.read()
+# for file in os.listdir(folder_path):
+#     file_path = os.path.join(folder_path, file)
+#     with open(file_path, 'r') as file:
+#         file_content = file.read()
+#
+#     inst = parse_dimacs_cnf(file_content)
+#
+#     res = is_satisfiable_dpll(inst, dlis)
+#     print(res)
 
-inst = parse_dimacs_cnf(file_content)
+count_sat = 0
+count_unsat = 0
 
-# res = is_satisfiable_dpll(inst, dlis)
-res = is_satisfiable_paturi_pudlak_zane(inst)
-print(res)
+for index in range(2, 10):
+
+    # Generate formula
+    F = OrderingPrinciple(index)
+    cnf = F.to_dimacs()
+
+    inst = parse_dimacs_cnf(cnf)
+    res = is_satisfiable_dpll(inst, dlis)
+
+    assert not res
+
+    with open(f"./samples/small_unsat/unsat_{count_unsat}.cnf", "w") as text_file:
+        text_file.write(cnf)
+
+    count_unsat += 1
+
+
+
+
 
