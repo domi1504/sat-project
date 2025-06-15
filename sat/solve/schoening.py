@@ -1,4 +1,8 @@
+import math
 import random
+
+import numpy as np
+
 from sat.instance.instance import Instance
 from sat.instance.utils.utils import check_assignment, get_unsatisfied_clauses
 from sat.modify.assign_and_simplify import assign_and_simplify
@@ -8,18 +12,19 @@ def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> bo
     """
 
     :param instance:
+    :param error_rate:
     :return:
     """
 
-    # todo. link with error rate. see schoening.
-    number_iterations = int(1e4)
+    # See p.105 in Schoening.
+    k = instance.get_longest_clause_length()
+    inversed_prob = 2 * (1 - (1 / k))
+    c = -np.log(error_rate)
+    number_iterations = math.ceil(c * (inversed_prob ** instance.num_variables))
 
     all_variables = list(instance.get_all_variables())
 
     for _ in range(number_iterations):
-
-        if _ % 100 == 0:
-            print(_)
 
         # (Re)start: New assignment chosen u.a.r.
         assignment = {}

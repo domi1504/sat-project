@@ -5,8 +5,6 @@ from sat.modify.assign_and_simplify import assign_and_simplify
 import numpy as np
 import random
 
-from sat.solve.brute_force import check_assignment
-
 
 def is_satisfiable_paturi_pudlak_zane(instance: Instance, error_rate: float = 1e-8) -> bool:
     """

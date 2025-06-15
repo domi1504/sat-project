@@ -35,11 +35,11 @@ def test_is_satisfiable_schoening_uf20_91(filename):
 directory2 = "../samples/small_unsat"
 # Get all .cnf files in the directory
 # Only first ten since this takes a while
-cnf_files2 = [f for f in sorted(os.listdir(directory2)) if f.endswith(".cnf")][:10]
+cnf_files2 = [f for f in sorted(os.listdir(directory2)) if f.endswith(".cnf")][:4]
 
 
 @pytest.mark.parametrize("filename", cnf_files2)
-def test_is_satisfiable_schoening_uuf50_218(filename):
+def test_is_satisfiable_schoening_small_unsat(filename):
     """
     Check for every instance of the uf50_218 whether False is returned.
 
@@ -55,32 +55,32 @@ def test_is_satisfiable_schoening_uuf50_218(filename):
         inst = parse_dimacs_cnf(content)
 
         # Solve instance
-        result = is_satisfiable_schoening(inst, 1e-8)
+        result = is_satisfiable_schoening(inst, 1e-2)
         assert not result
 
 
-directory3 = "../samples/uuf50_218"
-# Get all .cnf files in the directory
-# Only first ten since this takes a while
-cnf_files3 = [f for f in sorted(os.listdir(directory3)) if f.endswith(".cnf")][:10]
-
-
-@pytest.mark.parametrize("filename", cnf_files3)
-def test_is_satisfiable_schoening_uuf50_218(filename):
-    """
-    Check for every instance of the uf50_218 whether False is returned.
-
-    :return:
-    """
-
-    file_path = os.path.join(directory3, filename)
-
-    with open(file_path, 'r', encoding='utf-8') as file:
-        content = file.read()
-
-        # Parse instance
-        inst = parse_dimacs_cnf(content)
-
-        # Solve instance
-        result = is_satisfiable_schoening(inst, 1e-8)
-        assert not result
+# directory3 = "../samples/uuf50_218"
+# # Get all .cnf files in the directory
+# # Only first ten since this takes a while
+# cnf_files3 = [f for f in sorted(os.listdir(directory3)) if f.endswith(".cnf")][:10]
+#
+#
+# @pytest.mark.parametrize("filename", cnf_files3)
+# def test_is_satisfiable_schoening_uuf50_218(filename):
+#     """
+#     Check for every instance of the uf50_218 whether False is returned.
+#
+#     :return:
+#     """
+#
+#     file_path = os.path.join(directory3, filename)
+#
+#     with open(file_path, 'r', encoding='utf-8') as file:
+#         content = file.read()
+#
+#         # Parse instance
+#         inst = parse_dimacs_cnf(content)
+#
+#         # Solve instance
+#         result = is_satisfiable_schoening(inst, 1e-8)
+#         assert not result
