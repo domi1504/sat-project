@@ -19,30 +19,6 @@ def check_assignment_bit_matrix(assignment: str, instance):
     return True
 
 
-def check_assignment(instance: Instance, assignment: dict[int, bool]):
-    """
-
-    :param instance:
-    :param assignment:
-    :return:
-    """
-
-    for clause in instance.clauses:
-        clause_satisfied = False
-        for literal in clause:
-            if abs(literal) not in assignment:
-                break
-            if assignment[abs(literal)] == (literal > 0):
-                clause_satisfied = True
-                break
-        if not clause_satisfied:
-            return False
-
-    return True
-
-
-
-
 def is_satisfiable_brute_force(instance: Instance) -> bool:
     """
 
