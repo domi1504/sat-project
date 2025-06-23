@@ -25,6 +25,20 @@ def check_assignment(instance: Instance, assignment: dict[int, bool]) -> bool:
     return True
 
 
+def get_number_of_satisfied_clauses(instance: Instance, assignment: dict[int, bool]) -> int:
+    """
+
+    :param instance:
+    :param assignment:
+    :return:
+    """
+    counter = 0
+    for clause in instance.clauses:
+        if check_clause(clause, assignment):
+            counter += 1
+    return counter
+
+
 def get_unsatisfied_clauses(instance: Instance, assignment: dict[int, bool]) -> list[tuple[int, ...]]:
     """
 
