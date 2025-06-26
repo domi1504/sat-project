@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from sat.encoding.bit_matrix import parse_bit_matrix
-from sat.encoding.dimacs_cnf import parse_dimacs_cnf
 from sat.instance.instance import Instance
 
 

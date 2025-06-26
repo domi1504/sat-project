@@ -1,5 +1,5 @@
 import pytest
-from sat.solve.monien_speckenmeyer import is_satisfiable_monien_speckenmeyer
+from sat.solve.dpll.monien_speckenmeyer import is_satisfiable_monien_speckenmeyer
 from test.solve.utils import get_satisfiable_instances, get_unsatisfiable_instances
 
 

@@ -1,5 +1,5 @@
 import pytest
-from sat.solve.paturi_pudlak_zane import is_satisfiable_paturi_pudlak_zane
+from sat.solve.dpll.paturi_pudlak_zane import is_satisfiable_paturi_pudlak_zane
 from test.solve.utils import get_satisfiable_instances, get_unsatisfiable_instances
 
 

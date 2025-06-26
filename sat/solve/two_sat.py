@@ -11,8 +11,15 @@ O(n + m), je nach Implementierung von strongly connected components
 
 def is_satisfiable_2_sat(instance: Instance) -> bool:
     """
-    :param instance:
-    :return:
+    Determines whether a 2-SAT instance is satisfiable using implication graphs in polynomial time.
+
+    References:
+        - Schöning p.67 f.
+        - Aspvall, Plass, Tarjan: A linear-time algorithm for testing the truth of certain quantified boolean formulas.
+            (1979) - https://doi.org/10.1016/0020-0190(79)90002-4
+
+    :param instance: A 2-SAT instance.
+    :return: True if the instance is satisfiable, False otherwise.
     """
     assert is_2_sat(instance), "Not a 2-SAT instance"
 

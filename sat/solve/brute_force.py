@@ -1,34 +1,33 @@
-import numpy as np
 from sat.instance.instance import Instance
-
-
-def clause_satisfied_bit_matrix(assignment: str, row):
-    one_positions = np.where(row)[0]
-    for one_pos in one_positions:
-        var_index = one_pos // 2
-        necessary_value = '1' if (one_pos % 2 == 0) else '0'
-        if assignment[var_index] == necessary_value:
-            return True
-    return False
-
-
-def check_assignment_bit_matrix(assignment: str, instance):
-    for row in instance.bit_matrix:
-        if not clause_satisfied_bit_matrix(assignment, row):
-            return False
-    return True
+from sat.instance.utils import check_assignment
 
 
 def is_satisfiable_brute_force(instance: Instance) -> bool:
     """
+    Determines whether a SAT instance is satisfiable using brute-force search.
 
-    :param instance:
-    :return:
+    This function exhaustively checks all possible truth assignments to the variables
+    in the instance to determine if at least one satisfies all clauses.
+
+    Reference: Trivial.
+
+    :param instance: A SAT instance.
+    :return: True if a satisfying assignment exists, False otherwise.
     """
 
+    all_variables = instance.get_all_variables()
+
+    # Iterate over all possible assignments (binary representation of assignments)
     for assignment_index in range(2 ** instance.num_variables):
-        assignment = format(assignment_index, f'0{instance.num_variables}b')
-        if check_assignment_bit_matrix(assignment, instance):
+
+        # Convert integer to binary representation
+        assignment_binary = format(assignment_index, f'0{instance.num_variables}b')
+
+        # Parse binary number as assignment
+        assignment = {var: val == '1' for var, val in zip(all_variables, assignment_binary)}
+
+        # Check assignment
+        if check_assignment(instance, assignment):
             return True
 
     return False

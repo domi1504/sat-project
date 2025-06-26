@@ -57,8 +57,8 @@ In this project, I want to grapple with the satisfiability problem (SAT).
   - each using different [heuristics](sat/solve/dpll/heuristics.py)
 - DPLL with conflict driven clause learning (see [here](sat/solve/dpll/dpll_cdcl.py))
   using different [heuristics](sat/solve/dpll/heuristics.py)
-- Monien-Speckenmeyer (see [here](sat/solve/monien_speckenmeyer.py))
-- Paturi-Pudlak-Zane (see [here](sat/solve/paturi_pudlak_zane.py))
+- Monien-Speckenmeyer (see [here](sat/solve/dpll/monien_speckenmeyer.py))
+- Paturi-Pudlak-Zane (see [here](sat/solve/dpll/paturi_pudlak_zane.py))
 
 #### Local search based
 
