@@ -3,23 +3,33 @@ import re
 
 
 """
-See: https://jix.github.io/varisat/manual/0.2.0/formats/dimacs.html
-My additions: 
-    - multiple spaces are replaced to one space before parsing.
-    - if a '%' appears at the end of the file, it gets removed
+DIMACS CNF Format Parser and Serializer for SAT Instances
 
-DIMACS CNF format:
+Supports reading and writing SAT problem instances using the standard
+DIMACS CNF format, with some preprocessing enhancements.
 
-c This is a comment
-p cnf <num_vars> <num_clauses>
-1 2 0
--2 -3 0
--1 3 0
+Enhancements:
+- Multiple consecutive spaces are normalized to a single space.
+- Lines after a line containing '%' are removed.
+- Comments starting with 'c' are ignored.
 
+Reference: https://jix.github.io/varisat/manual/0.2.0/formats/dimacs.html
 """
 
 
 def _syntax_check_dimacs_snf(lines: list[str]):
+    """
+    Performs a syntax check on the lines of a DIMACS CNF file (excluding comments).
+
+    Validates:
+    - The first line starts with "p cnf <num_vars> <num_clauses>"
+    - The number of clause lines matches the header
+    - Each clause line ends with '0' and contains valid integer literals
+    - The declared number of variables matches the distinct variables used
+
+    :param lines: List of non-comment lines from a DIMACS CNF file.
+    :return: True if the syntax is valid; False otherwise.
+    """
 
     # Check first line for format "p cnf <INT> <INT>"
     if not re.match(r"^p cnf [1-9]\d* [1-9]\d*$", lines[0]):
@@ -55,6 +65,20 @@ def _syntax_check_dimacs_snf(lines: list[str]):
 
 
 def parse_dimacs_cnf(dimacs_cnf: str) -> Instance:
+    """
+    Parses a DIMACS CNF formatted string into an `Instance` object.
+
+    Steps:
+    - Removes comments and any line following a '%' character
+    - Normalizes whitespace
+    - Validates syntax
+    - Converts clauses to tuples of integers
+    - Normalizes variable indices to [1, ..., n]
+
+    :param dimacs_cnf: String in DIMACS CNF format.
+    :return: An `Instance` object representing the SAT problem.
+    :raises Exception: If the input string fails the DIMACS syntax validation.
+    """
 
     # Replace multiple spaces with one space
     dimacs_cnf = re.sub(r' {2,}', ' ', dimacs_cnf)
@@ -90,6 +114,15 @@ def parse_dimacs_cnf(dimacs_cnf: str) -> Instance:
 
 
 def write_dimacs_cnf(instance: Instance) -> str:
+    """
+    Serializes an `Instance` object into a DIMACS CNF formatted string.
+
+    Each clause is written on its own line, ending with a '0'.
+    Includes a header line of the form: `p cnf <num_vars> <num_clauses>`
+
+    :param instance: An `Instance` representing a SAT problem.
+    :return: A string in DIMACS CNF format suitable for saving or exporting.
+    """
 
     num_clauses = instance.num_clauses
     num_variables = instance.num_variables

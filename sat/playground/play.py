@@ -1,10 +1,7 @@
-from sat.encoding.dimacs_cnf import parse_dimacs_cnf, write_dimacs_cnf
+from sat.encoding.dimacs_cnf import parse_dimacs_cnf
 
-from sat.solve.dpll.dpll import is_satisfiable_dpll
-from sat.solve.dpll.heuristics import dlis, dlcs
-from sat.solve.local_search.cover_code import generate_cover_code_greedy, generate_cover_code, self_concatenate
+from sat.solve.local_search.cover_code import generate_cover_code
 from sat.solve.local_search.dantsin_local_search import is_satisfiable_dantsin_local_search
-from sat.solve.schoening import is_satisfiable_schoening
 
 # folder_path = './samples/temp'
 file_path = './samples/uf20_91/uf20-01.cnf'

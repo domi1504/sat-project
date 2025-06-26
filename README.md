@@ -43,6 +43,34 @@ In this project, I want to grapple with the satisfiability problem (SAT).
 > It is not the aim to get into the realm of competitive SAT-solving (thus python suffices).
 > 
 > The focus is more on the didactic aspect. It's about understanding the different base approaches and have a working implementation.
+> 
+> Of course, there are two many to cover them all, I decided just for a selection.
+
+### Implemented SAT-solvers
+
+- Brute Force (see [here](sat/solve/brute_force.py))
+- 2 SAT (see [here](sat/solve/two_sat.py))
+
+#### DPLL-artig
+
+- DPLL base algorithm ([recursive](sat/solve/dpll/dpll_recursive.py) and [iterative](sat/solve/dpll/dpll.py))
+  - each using different [heuristics](sat/solve/dpll/heuristics.py)
+- DPLL with conflict driven clause learning (see [here](sat/solve/dpll/dpll_cdcl.py))
+  using different [heuristics](sat/solve/dpll/heuristics.py)
+- Monien-Speckenmeyer (see [here](sat/solve/monien_speckenmeyer.py))
+- Paturi-Pudlak-Zane (see [here](sat/solve/paturi_pudlak_zane.py))
+
+#### Local search based
+
+- Two-sided deterministic local search (see [here](sat/solve/local_search/two_sided_deterministic_local_search.py))
+- Random local search (see [here](sat/solve/local_search/random_local_search.py))
+- Dantsin local search (see [here](sat/solve/local_search/dantsin_local_search.py))
+- Schöning's Algorithm (see [here](sat/solve/local_search/schoening.py))
+- GSAT ([base version](sat/solve/local_search/greedy_sat.py) and [with walk](sat/solve/local_search/greedy_sat_with_walk.py))
+- WSAT (see [here](sat/solve/local_search/walk_sat.py))
+
+
+# Phase 3
 
 - Get some sample SAT instances from online benchmarks
 - Run those algorithms against sample instances and measure their performance (not really important, since not optimized anyway)
@@ -51,7 +79,7 @@ In this project, I want to grapple with the satisfiability problem (SAT).
 - Get to know the State-Of-The-Art SAT solvers, and on what base approaches they are building upon
   z.b. https://github.com/jaras209/SAT_solver/blob/master/cdcl.py, "2-watched literals" (irgendne art index)
 
-# Phase 3
+# Phase 4
 
 **Try to do some research on my own** 
 

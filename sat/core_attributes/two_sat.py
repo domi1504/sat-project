@@ -1,4 +1,3 @@
-import numpy as np
 from sat.instance.instance import Instance
 
 

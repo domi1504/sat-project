@@ -1,6 +1,6 @@
 from sat.core_attributes.self_sufficient_assignment import is_self_sufficient_assignment
 from sat.instance.instance import Instance
-from sat.modify.assign_and_simplify import assign_and_simplify
+from sat.instance.assign_and_simplify import assign_and_simplify
 
 
 def is_satisfiable_monien_speckenmeyer(instance: Instance, with_self_sufficient_assignments_check: bool) -> bool:

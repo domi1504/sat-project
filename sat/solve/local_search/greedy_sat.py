@@ -1,6 +1,6 @@
 import random
 from sat.instance.instance import Instance
-from sat.instance.utils.utils import check_assignment, get_unsatisfied_clauses, get_number_of_satisfied_clauses
+from sat.instance.utils import check_assignment, get_number_of_satisfied_clauses
 
 
 def get_variable_to_flip_gsat(instance: Instance, assignment: dict[int, bool]) -> int:

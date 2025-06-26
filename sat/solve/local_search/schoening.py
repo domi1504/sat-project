@@ -4,8 +4,7 @@ import random
 import numpy as np
 
 from sat.instance.instance import Instance
-from sat.instance.utils.utils import check_assignment, get_unsatisfied_clauses
-from sat.modify.assign_and_simplify import assign_and_simplify
+from sat.instance.utils import check_assignment, get_unsatisfied_clauses
 
 
 def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> bool:

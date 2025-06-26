@@ -1,11 +1,7 @@
-
-import math
 import random
 
-import numpy as np
-
 from sat.instance.instance import Instance
-from sat.instance.utils.utils import check_assignment, get_unsatisfied_clauses
+from sat.instance.utils import check_assignment, get_unsatisfied_clauses
 
 
 def search_hamming_ball(instance: Instance, assignment: dict[int, bool], radius: int) -> bool:

@@ -1,7 +1,7 @@
 from typing import Callable
 from sat.core_attributes.pure_literal import get_pure_literal
 from sat.instance.instance import Instance
-from sat.modify.assign_and_simplify import assign_and_simplify
+from sat.instance.assign_and_simplify import assign_and_simplify
 
 
 def is_satisfiable_dpll_recursive(instance: Instance, heuristic: Callable[[Instance], int]) -> bool:

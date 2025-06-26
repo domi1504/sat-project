@@ -1,5 +1,5 @@
 import pytest
-from sat.solve.schoening import is_satisfiable_schoening
+from sat.solve.local_search.schoening import is_satisfiable_schoening
 from test.solve.utils import get_satisfiable_instances, get_unsatisfiable_instances
 
 

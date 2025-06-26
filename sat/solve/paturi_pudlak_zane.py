@@ -1,7 +1,7 @@
 import math
 
 from sat.instance.instance import Instance
-from sat.modify.assign_and_simplify import assign_and_simplify
+from sat.instance.assign_and_simplify import assign_and_simplify
 import numpy as np
 import random
 

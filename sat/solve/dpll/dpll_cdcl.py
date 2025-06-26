@@ -1,7 +1,7 @@
 from typing import Callable, List
 from sat.core_attributes.pure_literal import get_pure_literal
 from sat.instance.instance import Instance
-from sat.modify.assign_and_simplify import assign_and_simplify_cdcl
+from sat.instance.assign_and_simplify import assign_and_simplify_cdcl
 from sat.solve.dpll.dpll_node import CDCLNode
 
 """

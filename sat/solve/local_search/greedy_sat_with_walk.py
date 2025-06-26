@@ -1,6 +1,6 @@
 import random
 from sat.instance.instance import Instance
-from sat.instance.utils.utils import check_assignment, get_unsatisfied_clauses
+from sat.instance.utils import check_assignment, get_unsatisfied_clauses
 from sat.solve.local_search.greedy_sat import get_variable_to_flip_gsat
 
 
