@@ -3,12 +3,6 @@ from sat.core_attributes.two_sat import is_2_sat
 from sat.instance.instance import Instance
 
 
-"""
-Referenz siehe Schöning
-O(n + m), je nach Implementierung von strongly connected components
-"""
-
-
 def is_satisfiable_2_sat(instance: Instance) -> bool:
     """
     Determines whether a 2-SAT instance is satisfiable using implication graphs in polynomial time.

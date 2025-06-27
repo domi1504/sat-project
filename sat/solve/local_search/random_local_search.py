@@ -7,22 +7,30 @@ from sat.solve.local_search.search_hamming_ball import search_hamming_ball
 
 def is_satisfiable_random_local_search(instance: Instance, error_rate: float) -> bool:
     """
-    Apply random local search.
-    Iterate for t times:
-        start with initial assignment u.a.r.
-        search hamming ball with radius r (1/4 * n)
+    Determines satisfiability using a randomized local search with bounded error probability.
 
+    This method performs multiple iterations of random local search. In each iteration:
+    - A random initial assignment is generated uniformly at random.
+    - A search is performed within a Hamming ball of radius δ·n (δ = 1/4) around the assignment.
+
+    The number of iterations is computed to ensure that the overall error probability does not exceed
+    the given error_rate.
+
+    Reference:
+        - Schöning, p.97 f
+
+    :param instance: A SAT instance to be checked for satisfiability.
+    :param error_rate: The maximum acceptable probability of failure (i.e., returning False when the instance is satisfiable).
+    :return: True if a satisfying assignment is found within the defined number of iterations, False otherwise.
+    """
+
+    # Compute necessary number of iterations to fulfill desired error_rate
+    """
     To reach error_rate er:
     er = e ^ -c
     t = (c * 2 ^ n) / (sum i over 0 to delta * n: n choose i)
     See Schöning p.98.
-
-    :param instance:
-    :param error_rate:
-    :return:
     """
-
-    # Compute necessary number of iterations to fulfill desired error_rate
     delta = 0.25
     n = instance.num_variables
     c = -np.log(error_rate)

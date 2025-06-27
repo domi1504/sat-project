@@ -5,12 +5,15 @@ from sat.instance.utils import check_assignment, get_number_of_satisfied_clauses
 
 def get_variable_to_flip_gsat(instance: Instance, assignment: dict[int, bool]) -> int:
     """
-    Select variable to flip greedily:
-    Select variable that, when value flipped, maximizes the number of satisfied clauses.
+    Selects the next variable to flip in the GSAT (Greedy SAT) local search algorithm.
 
-    :param instance:
-    :param assignment:
-    :return:
+    This function evaluates all possible single-variable flips and chooses the one that results
+    in the greatest increase in the number of satisfied clauses. If multiple variables yield the
+    same best score, one is selected uniformly at random.
+
+    :param instance: The SAT instance to evaluate.
+    :param assignment: The current variable assignment.
+    :return: The variable to flip, selected greedily.
     """
 
     all_variables = list(instance.get_all_variables())
@@ -41,10 +44,20 @@ def get_variable_to_flip_gsat(instance: Instance, assignment: dict[int, bool]) -
 
 def is_satisfiable_gsat(instance: Instance, max_tries: int = 1000) -> bool:
     """
+    Determines the satisfiability of a SAT instance using the GSAT (Greedy SAT) algorithm.
 
-    :param instance:
-    :param max_tries:
-    :return:
+    GSAT is a local search algorithm that repeatedly starts from a random assignment and iteratively
+    flips variables to maximize the number of satisfied clauses. The process is restarted multiple
+    times to avoid local optima.
+
+    Reference:
+        - Schöning, p.111 f.
+        - Selman, Levesque, Mitchell: A New Method for Solving Hard Satisfiability Problems.
+            (1992) - Proceedings of the Tenth National Conference on Artificial Intelligence, p.440 – 446
+
+    :param instance: The SAT instance to solve.
+    :param max_tries: Number of random restarts (default: 1000).
+    :return: True if a satisfying assignment is found during any try, False otherwise.
     """
 
     all_variables = list(instance.get_all_variables())

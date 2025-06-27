@@ -1,21 +1,28 @@
 import math
 import random
-
 import numpy as np
-
 from sat.instance.instance import Instance
 from sat.instance.utils import check_assignment, get_unsatisfied_clauses
 
 
 def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> bool:
     """
+    Determines the satisfiability of a SAT instance using Schöning's probabilistic local search algorithm.
 
-    :param instance:
-    :param error_rate:
-    :return:
+    This algorithm randomly samples initial assignments and performs local search by flipping variables
+    in randomly chosen unsatisfied clauses. The number of restarts is determined based on the desired
+    error rate.
+
+    References:
+        - Schöning, p.102 f.
+        - Schöning: A Probabilistic Algorithm for k-SAT and Constraint Satisfaction Problems
+            (1999) - https://doi.org/10.1109/SFFCS.1999.814612
+
+    :param instance: The SAT instance to solve.
+    :param error_rate: Desired upper bound on the failure probability (default is 1e-8).
+    :return: True if a satisfying assignment is found with high probability, False otherwise.
     """
 
-    # See p.105 in Schoening.
     k = instance.get_longest_clause_length()
     inversed_prob = 2 * (1 - (1 / k))
     c = -np.log(error_rate)

@@ -5,12 +5,15 @@ from sat.instance.utils import check_assignment, get_unsatisfied_clauses, get_nu
 
 def get_variable_to_flip_wsat(instance: Instance, assignment: dict[int, bool], clause: tuple) -> int:
     """
-    Select variable to flip greedily:
-    Select variable out of given clause that, when value flipped, maximizes the number of satisfied clauses.
+    Selects the variable within the given unsatisfied clause that, if flipped,
+    maximizes the number of satisfied clauses in the SAT instance.
 
-    :param instance:
-    :param assignment:
-    :return:
+    If multiple variables achieve the same best score, one is chosen at random.
+
+    :param instance: The SAT instance.
+    :param assignment: The current variable assignment.
+    :param clause: An unsatisfied clause represented as a tuple of literals.
+    :return: The variable index (positive integer) to flip.
     """
 
     candidates = list(abs(lit) for lit in clause)
@@ -41,18 +44,21 @@ def get_variable_to_flip_wsat(instance: Instance, assignment: dict[int, bool], c
 
 def is_satisfiable_wsat(instance: Instance, max_tries: int = 1000, p: float = 0.55) -> bool:
     """
-    From 1994 Selman et al.
+    Attempts to solve the SAT instance using the WalkSAT algorithm.
 
-    Kommentar zu Schöning: sein Zusatz
-    "falls es Var gibt, die geflippt werden kann, ohne das andere klauseln falsch werden"
-    hab ich im Paper nicht gefunden.
-    Deswegen erstmal weggelassen.
+    References:
+        - Schöning, p.111 f.
+        - Selman, Kautz, Cohen: Noise Strategies for Improving Local Search.
+            (1994) - Proceedings of the Twelfth National Conference on Artificial Intelligence (Vol. 1), p. 337 - 343.
+        Kommentar zu Schöning: sein Zusatz
+            "falls es Variable gibt, die geflippt werden kann, ohne das andere klauseln falsch werden, [...]"
+            hab ich im Paper nicht gefunden; deswegen hier erstmal weggelassen.
 
-    :param instance:
-    :param max_tries:
-    :return:
+    :param instance: The SAT instance to solve.
+    :param max_tries: Maximum number of random restarts (default 1000).
+    :param p: Probability of making a random flip (default 0.55).
+    :return: True if a satisfying assignment is found, False otherwise.
     """
-
     all_variables = list(instance.get_all_variables())
 
     # See original paper ("multiple of #variables")

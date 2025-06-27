@@ -1,5 +1,18 @@
 from itertools import product
 
+
+"""
+Module for generating and manipulating covering codes for use in SAT solving strategies.
+
+Covering codes are used in local search algorithms (see Dantsin's algorithm.)
+to efficiently explore the search space by guaranteeing that all possible assignments fall within a
+bounded Hamming radius of at least one codeword.
+
+References:
+    - Schöning, p.99
+"""
+
+
 # todo. bessere cover codes.
 
 # check. does this fulfill property? (p. 100 schoening)
@@ -12,6 +25,19 @@ COVER_CODE_N4_R1 = [
 
 
 def self_concatenate(assignment: list[dict[int, bool]], k: int) -> list[dict[int, bool]]:
+    """
+    Concatenates the given codewords with themselves k times to create longer codewords.
+
+    Used to extend a base covering code to higher n_high, preserving the structure
+    of the original code in blocks of size n.
+
+    Returns A x A x ... x A (k times) of input assignment A.
+
+    :param assignment: List of codewords, each a dict mapping variable indices (1-based) to boolean values.
+    :param k: Number of times to concatenate the codewords.
+    :return: A new list of extended codewords of length k·n.
+    """
+
     # Assert that all codewords in cover cove have same length
     assert all(len(cw) == len(assignment[0]) for cw in assignment)
     n = len(assignment[0])
@@ -35,8 +61,15 @@ def self_concatenate(assignment: list[dict[int, bool]], k: int) -> list[dict[int
 
 def adapt_code(extended_code: list[dict[int, bool]], target_n: int, radius: int) -> list[dict[int, bool]]:
     """
-    Adapt a covering code to a shorter length without increasing covering radius.
-    If the covering property is lost, add new codewords as needed.
+    Truncates and adjusts a covering code to match a target dimension, maintaining the covering property.
+
+    This function ensures that the truncated code still covers all vectors within the given radius
+    in Hamming space. If coverage is lost during truncation, additional codewords are added greedily.
+
+    :param extended_code: Original code with length greater than target_n.
+    :param target_n: Desired length of the final codewords.
+    :param radius: Covering radius in Hamming distance.
+    :return: List of adjusted codewords of length target_n, preserving the covering radius.
     """
     assert target_n < len(extended_code)
 
@@ -76,14 +109,14 @@ def adapt_code(extended_code: list[dict[int, bool]], target_n: int, radius: int)
 def generate_cover_code_greedy(n: int, delta: float) -> list[dict[int, bool]]:
     """
     Perplexity. https://www.perplexity.ai/search/with-the-following-definition-Ss0ILK06RjC7ENvp5THXCQ.
-    Greedy algorithm for generating covering codes.
+    Constructs a covering code using a greedy algorithm.
 
-    Args:
-        n: Dimension/length parameter
-        delta: Distance parameter (related to radius)
+    Iteratively selects codewords that cover the most remaining uncovered vectors in Hamming space
+    of dimension n. The radius is derived from delta as r = ⌊δ·n⌋.
 
-    Returns:
-        List of codewords, each represented as a dict mapping positions to boolean values
+    :param n: Dimension of the Hamming space (codeword length).
+    :param delta: Relative covering radius (e.g., 0.25 for r = n/4).
+    :return: A list of covering codewords as dictionaries with 1-based indices.
     """
 
     # Shift, so that indices start from 1 for each assignment
@@ -149,6 +182,17 @@ def generate_cover_code_greedy(n: int, delta: float) -> list[dict[int, bool]]:
 
 
 def generate_cover_code(n: int, delta: float = 0.25) -> list[dict[int, bool]]:
+    """
+    Generates a covering code of length n using greedy construction.
+
+    For small n (< 8), a greedy construction is used. For larger n and δ = 0.25, the base
+    covering code for n=4 is extended via self-concatenation. If n is not a multiple of 4,
+    the extended code is adapted by truncation and adjustment.
+
+    :param n: Desired codeword length.
+    :param delta: Relative covering radius (default is 0.25).
+    :return: A list of covering codewords, each a dict mapping 1-based indices to boolean values.
+    """
 
     if n < 8:
         return generate_cover_code_greedy(n, delta)

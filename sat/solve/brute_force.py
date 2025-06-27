@@ -9,8 +9,6 @@ def is_satisfiable_brute_force(instance: Instance) -> bool:
     This function exhaustively checks all possible truth assignments to the variables
     in the instance to determine if at least one satisfies all clauses.
 
-    Reference: Trivial.
-
     :param instance: A SAT instance.
     :return: True if a satisfying assignment exists, False otherwise.
     """
