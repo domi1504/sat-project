@@ -5,10 +5,26 @@ from sat.instance.assign_and_simplify import assign_and_simplify
 
 def is_satisfiable_monien_speckenmeyer(instance: Instance, with_self_sufficient_assignments_check: bool) -> bool:
     """
+    Determines the satisfiability of a SAT instance using the Monien-Speckenmeyer splitting algorithm.
 
-    :param instance:
-    :param with_self_sufficient_assignments_check: "autarke" Belegungen in Schöning.
-    :return:
+    This recursive algorithm attempts to reduce the instance by selecting a clause of minimal length `k`
+    and exploring `k` different partial assignments:
+    - For each literal in the clause, assume all previous literals in the clause are set to `False`
+      and the current literal to `True`, then recursively check satisfiability of the simplified instance.
+
+    Optionally, the function can also check for "self-sufficient assignments" (autarke Belegungen), a refinement used
+    in extensions of Schöning-type algorithms. If enabled, the function first tries to find a partial assignment that
+    satisfies part of the formula independently and simplifies the instance accordingly.
+
+    References:
+        - Schöning, p. 81 f.
+        - Monien, Speckenmeyer: Solving satisfiability in less than 2^n steps
+            (1985) - https://doi.org/10.1016/0166-218X(85)90050-2
+
+    :param instance: The SAT instance to be solved.
+    :param with_self_sufficient_assignments_check: If True, will check for and apply self-sufficient assignments
+                                                   before proceeding with the basic recursive search.
+    :return: True if the instance is satisfiable, False otherwise.
     """
 
     # Check if clauses left

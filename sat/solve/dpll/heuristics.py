@@ -1,22 +1,41 @@
 from random import random
+from typing import Callable
+
 from sat.instance.instance import Instance
 from collections import Counter
 
 
 """
-All heuristics take in an instance and return the literal which will be assigned to True first.
-If "3" is returned: will first try to set 3 := True, then False.
-If "-4" is returned: will first try to set 4 := False, then True.
+Heuristics for variable selection in DPLL SAT solvers.
+
+This module defines a variety of variable selection heuristics used in DPLL- and CDCL-based algorithms. 
+These heuristics guide which variable (literal) to branch on next in order to maximize efficiency during search.
+
+All heuristics take in a SAT `Instance` and return a single `int` representing a literal.
+The literal returned will be assigned `True` first.
+
+Examples:
+    - If the heuristic returns `3`, the solver will first try `x3 := True`, then `x3 := False`.
+    - If it returns `-4`, the solver will first try `x4 := False`, then `x4 := True`.
 """
+
+
+DPLLHeuristic = Callable[[Instance], int]
 
 
 def dlis(instance: Instance) -> int:
     """
-    Dynamic Largest Individual Sum.
+    Dynamic Largest Individual Sum (DLIS) heuristic.
 
+    Selects the literal with the highest number of occurrences across all clauses.
+    In case of ties, selects the literal with the smallest absolute value,
+    preferring the positive literal if both polarities have the same count.
 
-    :param instance:
-    :return:
+    Reference:
+        - Schöning, p. 80
+
+    :param instance: The SAT instance.
+    :return: The literal to assign True first.
     """
     assert instance.num_variables > 0
 
@@ -37,10 +56,17 @@ def dlis(instance: Instance) -> int:
 
 def dlcs(instance: Instance) -> int:
     """
-    Dynamic Largest Clause Sum.
+    Dynamic Largest Clause Sum (DLCS) heuristic.
 
-    :param instance:
-    :return:
+    Selects the variable with the largest total number of occurrences of both
+    positive and negative literals across all clauses.
+    Returns the positive or negative literal depending on which polarity appears more frequently.
+
+    Reference:
+        - Schöning, p. 81
+
+    :param instance: The SAT instance.
+    :return: The literal to assign True first.
     """
     assert instance.num_variables > 0
 
@@ -63,10 +89,15 @@ def dlcs(instance: Instance) -> int:
 
 def rdlcs(instance: Instance) -> int:
     """
-    Random Dynamic Largest Clause Sum.
+    Random Dynamic Largest Clause Sum (RDLCS) heuristic.
 
-    :param instance:
-    :return:
+    Similar to DLCS but chooses the polarity of the selected variable at random with equal probability.
+
+    Reference:
+        - SAT-Skript p. 29
+
+    :param instance: The SAT instance.
+    :return: The literal to assign True first.
     """
     assert instance.num_variables > 0
 
@@ -89,10 +120,18 @@ def rdlcs(instance: Instance) -> int:
 
 def mom(instance: Instance) -> int:
     """
-    Maximum Occurrence in Minimal Size Clauses
+    Maximum Occurrence in Minimal Size Clauses (MOM) heuristic.
 
-    :param instance:
-    :return:
+    Selects a variable that occurs most frequently in the smallest clauses.
+    Among those, picks the variable that maximizes the product of its positive
+    and negative occurrences, favoring balanced polarity distribution.
+    Always returns the positive literal.
+
+    Reference:
+        - Schöning, p.81
+
+    :param instance: The SAT instance.
+    :return: The literal to assign True first.
     """
 
     # Get size of smallest occurring clause
@@ -127,16 +166,19 @@ def mom(instance: Instance) -> int:
     )
 
 
-def boehm(instance: Instance) -> int:
-    raise NotImplemented()
-
-
 def jeroslaw_wang(instance: Instance) -> int:
     """
-    Jeroslaw-Wang.
+    Jeroslaw-Wang heuristic.
 
-    :param instance:
-    :return:
+    Scores each literal by summing 2^(-clause_length) for all clauses containing it,
+    selecting the literal with the highest score.
+    In case of ties, picks the literal with the smallest absolute value.
+
+    Reference:
+        - Schöning, p.81
+
+    :param instance: The SAT instance.
+    :return: The literal to assign True first.
     """
     assert instance.num_variables > 0
 
@@ -156,10 +198,19 @@ def jeroslaw_wang(instance: Instance) -> int:
 
 def jeroslaw_wang_two_sided(instance: Instance) -> int:
     """
-    Jeroslaw-Wang, Two-Sided.
+    Jeroslaw-Wang Two-Sided heuristic.
 
-    :param instance:
-    :return:
+    Scores variables by summing the scores of both positive and negative literals
+    (each scored as in Jeroslaw-Wang).
+    Selects the variable with the highest combined score and returns
+    the polarity with the higher score.
+
+    Reference:
+        - Schöning, p.81
+        - SAT-Skript, p. 30
+
+    :param instance: The SAT instance.
+    :return: The literal to assign True first.
     """
     assert instance.num_variables > 0
 
@@ -183,10 +234,12 @@ def jeroslaw_wang_two_sided(instance: Instance) -> int:
 
 def shortest_clause(instance: Instance) -> int:
     """
-    Shortest-Clause (basis for Monien-Speckenmeyer)
+    Shortest-Clause heuristic.
 
-    :param instance:
-    :return:
+    Selects the first literal from the shortest clause in the instance.
+
+    :param instance: The SAT instance.
+    :return: The literal to assign True first.
     """
     assert instance.num_variables > 0
 

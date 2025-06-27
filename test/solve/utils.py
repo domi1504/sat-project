@@ -3,10 +3,11 @@ from typing import Iterator
 
 from sat.encoding.dimacs_cnf import parse_dimacs_cnf
 from sat.instance.instance import Instance
-from sat.solve.dpll.heuristics import jeroslaw_wang, jeroslaw_wang_two_sided, shortest_clause, dlis, dlcs, rdlcs, mom
+from sat.solve.dpll.heuristics import jeroslaw_wang, jeroslaw_wang_two_sided, shortest_clause, dlis, dlcs, rdlcs, mom, \
+    DPLLHeuristic
 
 
-dpll_heuristics = [dlis, dlcs, rdlcs, mom, jeroslaw_wang, jeroslaw_wang_two_sided, shortest_clause]
+dpll_heuristics: list[DPLLHeuristic] = [dlis, dlcs, rdlcs, mom, jeroslaw_wang, jeroslaw_wang_two_sided, shortest_clause]
 
 
 def get_satisfiable_instances() -> Iterator[Instance]:

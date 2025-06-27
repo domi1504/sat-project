@@ -3,12 +3,16 @@ from sat.instance.instance import Instance
 
 
 class DPLLNode:
+    """
+    Represents a node in the DPLL search tree.
+    """
+
     def __init__(self, instance: Instance, assignments: List[int]):
 
-        # This is the remaining instance at the current DPLL call
+        # This is the remaining instance at the current DPLL node
         self.instance = instance
 
-        # These are the assignments already made leading up to this call
+        # These are the assignments already made leading up to this node
         # [1, -4, 2] <=> x1 => True, x4 => False, x2 => True
         self.assignments = assignments
 
@@ -19,6 +23,9 @@ class DPLLNode:
 
 
 class CDCLNode(DPLLNode):
+    """
+    Represents a node in the DPLL search tree when using conflict drive clause learning (CDCL).
+    """
 
     # A DPLLNode with additional attributes
     def __init__(

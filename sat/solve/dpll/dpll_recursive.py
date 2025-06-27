@@ -1,15 +1,31 @@
-from typing import Callable
 from sat.core_attributes.pure_literal import get_pure_literal
 from sat.instance.instance import Instance
 from sat.instance.assign_and_simplify import assign_and_simplify
+from sat.solve.dpll.heuristics import DPLLHeuristic
 
 
-def is_satisfiable_dpll_recursive(instance: Instance, heuristic: Callable[[Instance], int]) -> bool:
+def is_satisfiable_dpll_recursive(instance: Instance, heuristic: DPLLHeuristic) -> bool:
     """
+    Determines the satisfiability of a SAT instance using the DPLL (Davis–Putnam–Logemann–Loveland) algorithm.
 
-    :param instance:
-    :param heuristic:
-    :return:
+    Recursive implementation.
+
+    The DPLL procedure performs a backtracking search, enhanced with common SAT solving techniques:
+        - Unit propagation: Automatically assigns variables when only one value can satisfy a clause.
+        - Pure literal elimination: Assigns variables that occur with only one polarity.
+        - Heuristic-based variable selection: Chooses the next literal to branch on using a given heuristic.
+
+    Branching is done according to the heuristic suggestion. If a literal `3` is returned,
+    the algorithm first tries `x3 := True`, then `x3 := False`. If `-4` is returned, it first
+    tries `x4 := False`, then `x4 := True`.
+
+    References:
+        - Schöning, p. 79 f.
+        - Biere et al.: Handbook of Satisfiability, Chapter 3.5.
+
+    :param instance: The input SAT instance to be checked for satisfiability.
+    :param heuristic: A function that selects the next literal to branch on.
+    :return: True if the instance is satisfiable, False otherwise.
     """
 
     # Check if clauses left

@@ -1,26 +1,51 @@
-from typing import Callable, List
+from typing import List
 from sat.core_attributes.pure_literal import get_pure_literal
 from sat.instance.instance import Instance
 from sat.instance.assign_and_simplify import assign_and_simplify_cdcl
 from sat.solve.dpll.dpll_node import CDCLNode
+from sat.solve.dpll.heuristics import DPLLHeuristic
 
-"""
-Gute quelle: https://users.aalto.fi/%7Etjunttil/2020-DP-AUT/notes-sat/cdcl.html 
-Trail <=> assignments + antecedents
-"""
 
 # todo(sometime). unit propagation etc. aus den iterationen rausziehen?
 #  das praktisch eine zweite innere loop läuft, die das direkt macht
-
 # todo(sometime). auch sowas wie conflict handling rausziehen?
 
 
-def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: Callable[[Instance], int]) -> bool:
+def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuristic) -> bool:
     """
+    Determines the satisfiability of a SAT instance using the DPLL algorithm with CDCL (Conflict-Driven Clause Learning)
+    and NCBT (Non-Chronological Backtracking).
 
-    :param input_instance:
-    :param heuristic:
-    :return:
+    This enhanced solver builds on the basic DPLL framework by integrating:
+
+    Already in basic DPLL framework:
+
+    - Heuristic literal selection: Determines the next decision literal based on a user-defined heuristic.
+    - Unit propagation: Automatically assigns variables that are the only literal in a clause.
+    - Pure literal elimination: Assigns literals that appear with only one polarity.
+
+    Additionally:
+
+    - Conflict analysis: Upon encountering a conflict, the algorithm performs resolution to learn a new clause
+      that prevents the same conflict in the future.
+    - First UIP (Unique Implication Point): Used during conflict analysis to determine the cut for clause learning.
+    - Clause learning: Adds the learned clause to all future nodes.
+    - Non-chronological backtracking: Jumps back to the appropriate earlier decision level based on learned clause
+      rather than simply undoing the last decision.
+
+    Literal branching follows heuristic guidance:
+    - If `3` is returned, first try `x3 := True`, then `x3 := False`.
+    - If `-4` is returned, first try `x4 := False`, then `x4 := True`.
+
+    References:
+        - Schöning, p. 88 f.
+        - Biere et al. Handbook of Satisfiability: Chapter 4.
+        - https://users.aalto.fi/%7Etjunttil/2020-DP-AUT/notes-sat/cdcl.html (Trail <=> assignments + antecedents)
+
+    :param input_instance: The SAT instance to solve.
+    :param heuristic: A function that selects the next literal to branch on.
+                      It should return a signed literal, where the sign indicates the preferred polarity.
+    :return: True if the instance is satisfiable, False otherwise.
     """
 
     decision_level = 0
