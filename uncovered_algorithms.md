@@ -3,15 +3,14 @@
 
 ## DPLL-artig
 
-
-
 ### Look-ahead based SAT solvers
 
-Reference: Handbook Chapter 5
+Reference: Handbook Chapter 5.
 
-todo.
-
-todo chapter 3 handbook
+Hier wird auf der DPLL-Backtracking Basis aufgebaut:
+bei der Wahl der nächsten Variable wird nicht nur eine Heuristik verwendet,
+sondern ein bisschen mehr Rechenaufwand in die Entscheidung gesteckt.
+Idee: mehr Aufwand in die Entscheidung stecken, um bessere zu treffen (schneller ans Ziel kommen).
 
 ## Local search based
 
@@ -21,9 +20,9 @@ Eine Erweiterung von Dantsins Ansatz: auch hier werden Überdeckungscodes genutz
 jedoch nochmal mit Kniffen klüger aufgespannt. Die Kernidee bleibt jedoch die gleiche.
 Erreicht jedoch O(1.33^n) für 3-SAT (statt 1.5).
 
-todo. quelle
+Reference: Schöning p.106 f.
 
-### Novelty / Novelty+å
+### Novelty / Novelty+
 
 Eine weitere Ausprägung der GSAT / WSAT Familie.
 Hier wurde weiter an der Variablenauswahl geklügelt.
@@ -32,8 +31,7 @@ So werden zu gewissem Grad auch die vergangenen bereits getesteten Belegung in B
 nicht nur die aktuelle.
 Folge: gerade eben geflippte Variablen können nicht direkt wieder zurückgeflippt werden.
 
-todo. quelle
-
+Reference: Schöning p.111 f.
 
 ## Sonstiges
 
