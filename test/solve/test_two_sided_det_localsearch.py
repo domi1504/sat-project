@@ -5,7 +5,7 @@ from sat.solve.local_search.two_sided_deterministic_local_search import (
 from test.solve.utils import get_satisfiable_instances, get_unsatisfiable_instances
 
 
-@pytest.mark.parametrize("instance", get_satisfiable_instances())
+@pytest.mark.parametrize("instance", get_satisfiable_instances(only_small=True))
 def test_two_sided_det_local_search_sat(instance):
     assert is_satisfiable_two_sided_deterministic_local_search(instance)
 

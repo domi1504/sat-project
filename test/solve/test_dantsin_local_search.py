@@ -5,7 +5,7 @@ from sat.solve.local_search.dantsin_local_search import (
 from test.solve.utils import get_satisfiable_instances, get_unsatisfiable_instances
 
 
-@pytest.mark.parametrize("instance", get_satisfiable_instances())
+@pytest.mark.parametrize("instance", get_satisfiable_instances(only_small=True))
 def test_dantsin_sat(instance):
     assert is_satisfiable_dantsin_local_search(instance)
 

@@ -1,6 +1,5 @@
 import os
 from typing import Iterator
-
 from sat.encoding.dimacs_cnf import parse_dimacs_cnf
 from sat.instance.instance import Instance
 from sat.solve.dpll.heuristics import (
@@ -26,32 +25,22 @@ dpll_heuristics: list[DPLLHeuristic] = [
 ]
 
 
-def get_satisfiable_instances() -> Iterator[Instance]:
-
-    directory_satisfiable = "../samples/uf20_91"
-    cnf_files_satisfiable = [
-        f for f in sorted(os.listdir(directory_satisfiable)) if f.endswith(".cnf")
-    ][:50]
-
-    for filename in cnf_files_satisfiable:
-        file_path = os.path.join(directory_satisfiable, filename)
+def load_instances_from(directory: str, limit: int) -> Iterator[Instance]:
+    cnf_files = [f for f in sorted(os.listdir(directory)) if f.endswith(".cnf")][:limit]
+    for filename in cnf_files:
+        file_path = os.path.join(directory, filename)
         with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
-            inst = parse_dimacs_cnf(content)
-            yield inst
+            yield parse_dimacs_cnf(content)
+
+
+def get_satisfiable_instances(only_small: bool = False) -> Iterator[Instance]:
+    yield from load_instances_from("../samples/small_sat", 25)
+    if not only_small:
+        yield from load_instances_from("../samples/uf20_91", 100)
 
 
 def get_unsatisfiable_instances(only_small: bool = False) -> Iterator[Instance]:
-    def load_instances_from(directory: str, limit: int) -> Iterator[Instance]:
-        cnf_files = [f for f in sorted(os.listdir(directory)) if f.endswith(".cnf")][
-            :limit
-        ]
-        for filename in cnf_files:
-            file_path = os.path.join(directory, filename)
-            with open(file_path, "r", encoding="utf-8") as file:
-                content = file.read()
-                yield parse_dimacs_cnf(content)
-
-    yield from load_instances_from("../samples/small_unsat", 3)
+    yield from load_instances_from("../samples/small_unsat", 25)
     if not only_small:
         yield from load_instances_from("../samples/uuf50_218", 5)

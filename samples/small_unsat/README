@@ -1,6 +1,0 @@
-50 unsatisfiable formulas.
-Derived by:
-from cnfgen import OrderingPrinciple
-for index in range(2, 10):
-    F = OrderingPrinciple(index)
-    cnf = F.to_dimacs()
