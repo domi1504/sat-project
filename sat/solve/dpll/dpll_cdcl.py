@@ -1,7 +1,7 @@
 from typing import List
-from sat.core_attributes.pure_literal import get_pure_literal
 from sat.instance.instance import Instance
 from sat.instance.assign_and_simplify import assign_and_simplify_cdcl
+from sat.kernel_attributes.pure_literal import get_pure_literal
 from sat.solve.dpll.dpll_node import CDCLNode
 from sat.solve.dpll.heuristics import DPLLHeuristic
 

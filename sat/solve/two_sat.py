@@ -1,6 +1,6 @@
 import networkx as nx  # type: ignore
-from sat.core_attributes.two_sat import is_2_sat
 from sat.instance.instance import Instance
+from sat.kernel_attributes.two_sat import is_2_sat
 
 
 def is_satisfiable_2_sat(instance: Instance) -> bool:

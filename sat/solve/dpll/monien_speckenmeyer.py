@@ -1,6 +1,54 @@
-from sat.core_attributes.self_sufficient_assignment import is_self_sufficient_assignment
 from sat.instance.instance import Instance
 from sat.instance.assign_and_simplify import assign_and_simplify
+
+
+def is_self_sufficient_assignment(
+    instance: Instance, assignment: dict[int, bool]
+) -> bool:
+    """
+    Determine whether a given assignment is self-sufficient ("autark").
+
+    According to Schöning's definition, an assignment is self-sufficient if every clause that is
+    "touched" by it (i.e., contains at least one of the assigned variables) is satisfied by the assignment.
+
+    In other words, the assignment must satisfy all clauses that involve any of the assigned variables.
+
+    :param instance: (Instance) A SAT instance containing clauses over variables.
+    :param assignment: (dict[int, bool]) A partial assignment mapping variable indices to Boolean values.
+
+    :return:
+        bool:
+            True  --> The assignment is self-sufficient (autark).
+            False --> There exists at least one touched clause that is not satisfied by the assignment.
+    """
+
+    """
+    Given an instance and an assignment, check whether given assignment is a self-sufficient assignment.
+    (Schöning: "autark")
+
+    Meaning: Every clause that is "touched" (contains a variable that the assignment also contains), is satisfied
+        by the assignment.
+
+    :param instance:
+    :param assignment:
+    :return:
+    """
+
+    assigned_variables = list(assignment.keys())
+    true_literals = list(
+        (variable if value else -variable) for (variable, value) in assignment.items()
+    )
+
+    for clause in instance.clauses:
+        if any((abs(lit) in assigned_variables) for lit in clause):
+            # Clause is "touched" by assignment
+
+            # Check if assignment does NOT satisfy clause (= none of the assigned variables appear in the correct form)
+            if not any((true_literal in clause) for true_literal in true_literals):
+                return False
+
+    # All touched clauses satisfied
+    return True
 
 
 def is_satisfiable_monien_speckenmeyer(
