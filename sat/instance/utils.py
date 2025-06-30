@@ -33,7 +33,9 @@ def check_assignment(instance: Instance, assignment: dict[int, bool]) -> bool:
     return True
 
 
-def get_number_of_satisfied_clauses(instance: Instance, assignment: dict[int, bool]) -> int:
+def get_number_of_satisfied_clauses(
+    instance: Instance, assignment: dict[int, bool]
+) -> int:
     """
     Counts the number of clauses satisfied by a given variable assignment in a SAT instance.
 
@@ -48,7 +50,9 @@ def get_number_of_satisfied_clauses(instance: Instance, assignment: dict[int, bo
     return counter
 
 
-def get_unsatisfied_clauses(instance: Instance, assignment: dict[int, bool]) -> list[tuple[int, ...]]:
+def get_unsatisfied_clauses(
+    instance: Instance, assignment: dict[int, bool]
+) -> list[tuple[int, ...]]:
     """
     Returns a list of clauses that are not satisfied under the given variable assignment.
 

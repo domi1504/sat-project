@@ -26,7 +26,7 @@ def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> bo
     k = instance.get_longest_clause_length()
     inversed_prob = 2 * (1 - (1 / k))
     c = -np.log(error_rate)
-    number_iterations = math.ceil(c * (inversed_prob ** instance.num_variables))
+    number_iterations = math.ceil(c * (inversed_prob**instance.num_variables))
 
     all_variables = list(instance.get_all_variables())
 
@@ -51,13 +51,10 @@ def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> bo
 
             # Choose one variable u.a.r
             selected_variable = abs(
-                selected_clause[
-                    random.randint(0, len(selected_clause) - 1)
-                ]
+                selected_clause[random.randint(0, len(selected_clause) - 1)]
             )
 
             # Flip literal in assignment
             assignment[selected_variable] = not assignment[selected_variable]
 
     return False
-

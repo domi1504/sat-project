@@ -11,4 +11,3 @@ def test_wsat_sat(instance):
 @pytest.mark.parametrize("instance", get_unsatisfiable_instances(only_small=True))
 def test_wsat_unsat(instance):
     assert not is_satisfiable_wsat(instance)
-

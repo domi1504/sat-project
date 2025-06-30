@@ -9,13 +9,13 @@ Referenz: Schöning.
 def is_renamable_horn(instance: Instance):
 
     # Build check instance F*
-    clauses_check = []
+    clauses_check: list[tuple[int, ...]] = []
 
     for clause in instance.clauses:
 
         # Get all combinations of literals
         for i in range(len(clause) - 1):
-            for j in range(i+1, len(clause)):
+            for j in range(i + 1, len(clause)):
 
                 # Add to clauses_check if not inside yet
                 a, b = clause[i], clause[j]

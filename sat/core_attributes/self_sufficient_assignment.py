@@ -5,7 +5,9 @@ Referenz: Schöning.
 """
 
 
-def is_self_sufficient_assignment(instance: Instance, assignment: dict[int, bool]) -> bool:
+def is_self_sufficient_assignment(
+    instance: Instance, assignment: dict[int, bool]
+) -> bool:
     """
     Given an instance and an assignment, check whether given assignment is a self-sufficient assignment.
     (Schöning: "autark")
@@ -19,7 +21,9 @@ def is_self_sufficient_assignment(instance: Instance, assignment: dict[int, bool
     """
 
     assigned_variables = list(assignment.keys())
-    true_literals = list((variable if value else -variable) for (variable, value) in assignment.items())
+    true_literals = list(
+        (variable if value else -variable) for (variable, value) in assignment.items()
+    )
 
     for clause in instance.clauses:
         if any((abs(lit) in assigned_variables) for lit in clause):

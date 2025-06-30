@@ -8,12 +8,20 @@ self_sufficient_assignment_checks = [True, False]
 
 
 @pytest.mark.parametrize("instance", get_satisfiable_instances())
-@pytest.mark.parametrize("self_sufficient_assignment_check", self_sufficient_assignment_checks)
+@pytest.mark.parametrize(
+    "self_sufficient_assignment_check", self_sufficient_assignment_checks
+)
 def test_monien_speckenmeyer_sat(instance, self_sufficient_assignment_check):
-    assert is_satisfiable_monien_speckenmeyer(instance, self_sufficient_assignment_check)
+    assert is_satisfiable_monien_speckenmeyer(
+        instance, self_sufficient_assignment_check
+    )
 
 
 @pytest.mark.parametrize("instance", get_unsatisfiable_instances())
-@pytest.mark.parametrize("self_sufficient_assignment_check", self_sufficient_assignment_checks)
+@pytest.mark.parametrize(
+    "self_sufficient_assignment_check", self_sufficient_assignment_checks
+)
 def test_monien_speckenmeyer_unsat(instance, self_sufficient_assignment_check):
-    assert not is_satisfiable_monien_speckenmeyer(instance, self_sufficient_assignment_check)
+    assert not is_satisfiable_monien_speckenmeyer(
+        instance, self_sufficient_assignment_check
+    )

@@ -11,7 +11,9 @@ from sat.solve.dpll.heuristics import DPLLHeuristic
 # todo(sometime). auch sowas wie conflict handling rausziehen?
 
 
-def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuristic) -> bool:
+def is_satisfiable_dpll_cdcl_ncbt(
+    input_instance: Instance, heuristic: DPLLHeuristic
+) -> bool:
     """
     Determines the satisfiability of a SAT instance using the DPLL algorithm with CDCL (Conflict-Driven Clause Learning)
     and NCBT (Non-Chronological Backtracking).
@@ -60,7 +62,9 @@ def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuri
             [],  # no assignments at start.
             {},  # no corresponding decision levels.
             {},  # no corresponding antecedents.
-            list(range(input_instance.num_clauses)),  # every clause at original index in the beginning.
+            list(
+                range(input_instance.num_clauses)
+            ),  # every clause at original index in the beginning.
         )
     ]
 
@@ -85,7 +89,9 @@ def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuri
 
             # Get conflict clause (now empty clause under current assignment)
             empty_clause_index = current_node.instance.clauses.index(())
-            conflict_clause = all_clauses[current_node.indices_in_original[empty_clause_index]]
+            conflict_clause = all_clauses[
+                current_node.indices_in_original[empty_clause_index]
+            ]
 
             assignments_copy = current_node.assignments.copy()
             # See https://stackoverflow.com/questions/67379492/finding-the-first-uip-in-an-inference-graph
@@ -96,7 +102,16 @@ def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuri
                 first_uip_cut.add(-lit)
 
             # Keep going until only one literal of latest decision level remains
-            while len([1 for e in first_uip_cut if current_node.decision_levels[abs(e)] == decision_level]) > 1:
+            while (
+                len(
+                    [
+                        1
+                        for e in first_uip_cut
+                        if current_node.decision_levels[abs(e)] == decision_level
+                    ]
+                )
+                > 1
+            ):
                 next_lit = assignments_copy.pop()
                 if next_lit in first_uip_cut:
                     # Remove from set
@@ -126,9 +141,13 @@ def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuri
                 if any(lit in node.assignments for lit in learned_clause):
                     continue
                 # Leave out already falsified literals in the node's assignment
-                new_clause = tuple(lit for lit in learned_clause if -lit not in node.assignments)
+                new_clause = tuple(
+                    lit for lit in learned_clause if -lit not in node.assignments
+                )
                 node.instance = Instance(node.instance.clauses[:] + [new_clause])
-                node.indices_in_original = node.indices_in_original + [len(all_clauses) - 1]
+                node.indices_in_original = node.indices_in_original + [
+                    len(all_clauses) - 1
+                ]
 
             """ Step 3: Non-chronological backtrack  """
 
@@ -146,15 +165,23 @@ def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuri
                 backtrack_level = sorted(learned_clause_decision_levels)[-2]
 
             # Remove all calls from stack that are above that decision level
-            stack = list([
-                node for node in stack if node.get_max_decision_level() <= backtrack_level
-            ])
-            
+            stack = list(
+                [
+                    node
+                    for node in stack
+                    if node.get_max_decision_level() <= backtrack_level
+                ]
+            )
+
             # Replace current node with backtracked version
             backtracked_assignments = current_node.assignments.copy()
             backtracked_decision_levels = {**current_node.decision_levels}
             backtracked_antecedents = {**current_node.antecedent}
-            while len(backtracked_assignments) > 0 and backtracked_decision_levels[abs(backtracked_assignments[-1])] > backtrack_level:
+            while (
+                len(backtracked_assignments) > 0
+                and backtracked_decision_levels[abs(backtracked_assignments[-1])]
+                > backtrack_level
+            ):
                 var = abs(backtracked_assignments.pop())
                 del backtracked_decision_levels[var]
                 del backtracked_antecedents[var]
@@ -197,8 +224,14 @@ def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuri
                     CDCLNode(
                         updated_instance,
                         current_node.assignments.copy() + [clause[0]],
-                        {**current_node.decision_levels, abs(clause[0]): decision_level},  # decision level only increases upon decision variables
-                        {**current_node.antecedent, abs(clause[0]): current_node.indices_in_original[index]},
+                        {
+                            **current_node.decision_levels,
+                            abs(clause[0]): decision_level,
+                        },  # decision level only increases upon decision variables
+                        {
+                            **current_node.antecedent,
+                            abs(clause[0]): current_node.indices_in_original[index],
+                        },
                         updated_pointers,
                     )
                 )
@@ -221,8 +254,14 @@ def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuri
                 CDCLNode(
                     updated_instance,
                     current_node.assignments.copy() + [pure_literal],
-                    {**current_node.decision_levels, abs(pure_literal): decision_level},  # decision level only increases upon decision variables
-                    {**current_node.antecedent, abs(pure_literal): None},  # in case of pure literals: no antecedent.
+                    {
+                        **current_node.decision_levels,
+                        abs(pure_literal): decision_level,
+                    },  # decision level only increases upon decision variables
+                    {
+                        **current_node.antecedent,
+                        abs(pure_literal): None,
+                    },  # in case of pure literals: no antecedent.
                     updated_pointers,
                 )
             )
@@ -241,14 +280,20 @@ def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuri
             new_instance, new_indices = assign_and_simplify_cdcl(
                 current_node.instance,
                 {abs(literal): value > 0},
-                current_node.indices_in_original
+                current_node.indices_in_original,
             )
             stack.append(
                 CDCLNode(
                     new_instance,
                     current_node.assignments.copy() + [value],
-                    {**current_node.decision_levels, abs(literal): decision_level},  # now increased decision level
-                    {**current_node.antecedent, abs(literal): None},  # decision literal has no antecedent
+                    {
+                        **current_node.decision_levels,
+                        abs(literal): decision_level,
+                    },  # now increased decision level
+                    {
+                        **current_node.antecedent,
+                        abs(literal): None,
+                    },  # decision literal has no antecedent
                     new_indices,
                 )
             )

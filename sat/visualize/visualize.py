@@ -9,13 +9,12 @@ from sat.visualize.graph_by_clauses import visualize_graph_by_clauses
 
 if __name__ == "__main__":
 
-    file_path = '../../samples/is_core/1.txt'
+    file_path = "../../samples/is_core/1.txt"
 
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         file_content = file.read()
 
     inst = parse_bit_matrix(file_content)
 
     # visualize_two_formulas(inst, inst)
     visualize_graph_by_clauses(inst)
-

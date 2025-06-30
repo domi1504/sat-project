@@ -11,4 +11,3 @@ def test_schoening_sat(instance):
 @pytest.mark.parametrize("instance", get_unsatisfiable_instances(only_small=True))
 def test_schoening_unsat(instance):
     assert not is_satisfiable_schoening(instance)
-

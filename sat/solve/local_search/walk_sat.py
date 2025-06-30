@@ -1,9 +1,15 @@
 import random
 from sat.instance.instance import Instance
-from sat.instance.utils import check_assignment, get_unsatisfied_clauses, get_number_of_satisfied_clauses
+from sat.instance.utils import (
+    check_assignment,
+    get_unsatisfied_clauses,
+    get_number_of_satisfied_clauses,
+)
 
 
-def get_variable_to_flip_wsat(instance: Instance, assignment: dict[int, bool], clause: tuple) -> int:
+def get_variable_to_flip_wsat(
+    instance: Instance, assignment: dict[int, bool], clause: tuple
+) -> int:
     """
     Selects the variable within the given unsatisfied clause that, if flipped,
     maximizes the number of satisfied clauses in the SAT instance.
@@ -34,15 +40,15 @@ def get_variable_to_flip_wsat(instance: Instance, assignment: dict[int, bool], c
 
     if len(best_variables) > 1:
         # Return one at random
-        return best_variables[
-            random.randint(0, len(best_variables) - 1)
-        ]
+        return best_variables[random.randint(0, len(best_variables) - 1)]
     else:
         # Return the only one
         return best_variables[0]
 
 
-def is_satisfiable_wsat(instance: Instance, max_tries: int = 1000, p: float = 0.55) -> bool:
+def is_satisfiable_wsat(
+    instance: Instance, max_tries: int = 1000, p: float = 0.55
+) -> bool:
     """
     Attempts to solve the SAT instance using the WalkSAT algorithm.
 
@@ -67,7 +73,9 @@ def is_satisfiable_wsat(instance: Instance, max_tries: int = 1000, p: float = 0.
     for _ in range(max_tries):
 
         # Restart: New assignment chosen u.a.r.
-        assignment = {variable: random.choice([True, False]) for variable in all_variables}
+        assignment = {
+            variable: random.choice([True, False]) for variable in all_variables
+        }
 
         for __ in range(max_flips):
 
@@ -87,10 +95,11 @@ def is_satisfiable_wsat(instance: Instance, max_tries: int = 1000, p: float = 0.
                 selected_variable = abs(selected_variable)
             else:
                 # Use standard GSAT procedure
-                selected_variable = get_variable_to_flip_wsat(instance, assignment, selected_clause)
+                selected_variable = get_variable_to_flip_wsat(
+                    instance, assignment, selected_clause
+                )
 
             # Flip literal in assignment
             assignment[selected_variable] = not assignment[selected_variable]
 
     return False
-

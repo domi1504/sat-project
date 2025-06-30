@@ -35,9 +35,7 @@ def _syntax_check_dimacs_snf(lines: list[str]):
     if not re.match(r"^p cnf [1-9]\d* [1-9]\d*$", lines[0]):
         return False
 
-    num_variables, num_clauses = lines[0][6:].split(" ")
-    num_variables = int(num_variables)
-    num_clauses = int(num_clauses)
+    num_variables, num_clauses = map(int, lines[0][6:].split(" "))
 
     # Check number of lines
     if len(lines) != num_clauses + 1:
@@ -81,7 +79,7 @@ def parse_dimacs_cnf(dimacs_cnf: str) -> Instance:
     """
 
     # Replace multiple spaces with one space
-    dimacs_cnf = re.sub(r' {2,}', ' ', dimacs_cnf)
+    dimacs_cnf = re.sub(r" {2,}", " ", dimacs_cnf)
 
     # Get separate lines
     lines = dimacs_cnf.strip().split("\n")
@@ -94,7 +92,7 @@ def parse_dimacs_cnf(dimacs_cnf: str) -> Instance:
 
     # Check if some line with "%" appears
     for i in range(len(lines)):
-        if '%' in lines[i]:
+        if "%" in lines[i]:
             # If so: delete everything from that line on
             lines = lines[:i]
             break
@@ -139,4 +137,3 @@ def write_dimacs_cnf(instance: Instance) -> str:
         dimacs_cnf += "\n" + line
 
     return dimacs_cnf
-

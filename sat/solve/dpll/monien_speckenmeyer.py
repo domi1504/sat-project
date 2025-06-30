@@ -3,7 +3,9 @@ from sat.instance.instance import Instance
 from sat.instance.assign_and_simplify import assign_and_simplify
 
 
-def is_satisfiable_monien_speckenmeyer(instance: Instance, with_self_sufficient_assignments_check: bool) -> bool:
+def is_satisfiable_monien_speckenmeyer(
+    instance: Instance, with_self_sufficient_assignments_check: bool
+) -> bool:
     """
     Determines the satisfiability of a SAT instance using the Monien-Speckenmeyer splitting algorithm.
 
@@ -56,7 +58,7 @@ def is_satisfiable_monien_speckenmeyer(instance: Instance, with_self_sufficient_
             if is_self_sufficient_assignment(instance, assignments):
                 return is_satisfiable_monien_speckenmeyer(
                     assign_and_simplify(instance, assignments),
-                    with_self_sufficient_assignments_check
+                    with_self_sufficient_assignments_check,
                 )
 
     # Start: Try with i = 1, i = 2, ...
@@ -73,9 +75,8 @@ def is_satisfiable_monien_speckenmeyer(instance: Instance, with_self_sufficient_
 
         if is_satisfiable_monien_speckenmeyer(
             assign_and_simplify(instance, assignments),
-            with_self_sufficient_assignments_check
+            with_self_sufficient_assignments_check,
         ):
             return True
 
     return False
-

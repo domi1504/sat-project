@@ -5,7 +5,9 @@ import numpy as np
 import random
 
 
-def is_satisfiable_paturi_pudlak_zane(instance: Instance, error_rate: float = 1e-8) -> bool:
+def is_satisfiable_paturi_pudlak_zane(
+    instance: Instance, error_rate: float = 1e-8
+) -> bool:
     """
     Determines satisfiability of a SAT instance using the Paturi-Pudlák-Zane randomized algorithm.
 
@@ -66,20 +68,25 @@ def is_satisfiable_paturi_pudlak_zane(instance: Instance, error_rate: float = 1e
             if (variable,) in instance_iteration.clauses:
                 # Check if +variable occurs in a unit clause in current instance
                 assignment[variable] = True
-                instance_iteration = assign_and_simplify(instance_iteration, {variable: True})
+                instance_iteration = assign_and_simplify(
+                    instance_iteration, {variable: True}
+                )
             elif (-variable,) in instance_iteration.clauses:
                 # Check if -variable occurs in a unit clause in current instance
                 assignment[variable] = False
-                instance_iteration = assign_and_simplify(instance_iteration, {variable: False})
+                instance_iteration = assign_and_simplify(
+                    instance_iteration, {variable: False}
+                )
             else:
                 # Choose assignment randomly
                 value = random.choice([True, False])
                 assignment[variable] = value
-                instance_iteration = assign_and_simplify(instance_iteration, {variable: value})
+                instance_iteration = assign_and_simplify(
+                    instance_iteration, {variable: value}
+                )
 
         if not instance_iteration.has_empty_clause():
             # Found satisfying assignment
             return True
 
     return False
-

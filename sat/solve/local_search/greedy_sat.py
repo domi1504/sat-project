@@ -34,9 +34,7 @@ def get_variable_to_flip_gsat(instance: Instance, assignment: dict[int, bool]) -
 
     if len(best_variables) > 1:
         # Return one at random
-        return  best_variables[
-            random.randint(0, len(best_variables) - 1)
-        ]
+        return best_variables[random.randint(0, len(best_variables) - 1)]
     else:
         # Return the only one
         return best_variables[0]
@@ -68,7 +66,9 @@ def is_satisfiable_gsat(instance: Instance, max_tries: int = 1000) -> bool:
     for _ in range(max_tries):
 
         # Restart: New assignment chosen u.a.r.
-        assignment = {variable: random.choice([True, False]) for variable in all_variables}
+        assignment = {
+            variable: random.choice([True, False]) for variable in all_variables
+        }
 
         for __ in range(max_flips):
 
@@ -83,4 +83,3 @@ def is_satisfiable_gsat(instance: Instance, max_tries: int = 1000) -> bool:
             assignment[selected_variable] = not assignment[selected_variable]
 
     return False
-

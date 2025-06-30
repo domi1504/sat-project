@@ -11,4 +11,3 @@ def test_ppz_sat(instance):
 @pytest.mark.parametrize("instance", get_unsatisfiable_instances(only_small=True))
 def test_ppz_unsat(instance):
     assert not is_satisfiable_paturi_pudlak_zane(instance, error_rate=1e-8)
-

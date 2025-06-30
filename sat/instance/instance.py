@@ -1,6 +1,10 @@
 from typing import Optional
 import numpy as np
-from sat.instance.bit_matrix import bit_matrix_valid, clauses_to_bit_matrix, bit_matrix_to_clauses
+from sat.instance.bit_matrix import (
+    bit_matrix_valid,
+    clauses_to_bit_matrix,
+    bit_matrix_to_clauses,
+)
 
 
 class Instance:
@@ -82,7 +86,9 @@ class Instance:
         return max(len(clause) for clause in self.clauses)
 
 
-def clauses_valid(clauses: list[tuple[int, ...]], variables_perfectly_1_to_n: bool = False) -> bool:
+def clauses_valid(
+    clauses: list[tuple[int, ...]], variables_perfectly_1_to_n: bool = False
+) -> bool:
     """
     Validates a list of SAT clauses.
 
@@ -121,12 +127,12 @@ def clauses_valid(clauses: list[tuple[int, ...]], variables_perfectly_1_to_n: bo
         return True
 
     # Check that only variables from exactly  [1, ..., n] (not more, not less!)
-    variables = set()
+    collect_variables = set()
     for clause in clauses:
         for lit in clause:
-            variables.add(abs(lit))
+            collect_variables.add(abs(lit))
 
-    variables = sorted(list(variables))
+    variables: list[int] = sorted(list(collect_variables))
     if variables != list(range(1, len(variables) + 1)):
         return False
 
@@ -149,7 +155,7 @@ def normalize_clauses(clauses: list[tuple[int, ...]]) -> list[tuple[int, ...]]:
     normalized_clauses = []
 
     # Count variables & create mapping to indices
-    var_name_map = {}
+    var_name_map: dict[int, int] = {}
     cur_var_name = 1
     for clause in clauses:
         for lit in clause:
@@ -160,7 +166,9 @@ def normalize_clauses(clauses: list[tuple[int, ...]]) -> list[tuple[int, ...]]:
 
     # Fill normalized clauses
     for clause in clauses:
-        renamed_clause = tuple((1 if lit > 0 else -1) * var_name_map[abs(lit)] for lit in clause)
+        renamed_clause = tuple(
+            (1 if lit > 0 else -1) * var_name_map[abs(lit)] for lit in clause
+        )
         normalized_clauses.append(renamed_clause)
 
     return normalized_clauses
@@ -178,4 +186,3 @@ def get_instance_from_bit_matrix(matrix: np.ndarray) -> Instance:
     """
     clauses = bit_matrix_to_clauses(matrix)
     return Instance(clauses)
-

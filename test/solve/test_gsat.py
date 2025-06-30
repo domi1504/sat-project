@@ -11,4 +11,3 @@ def test_gsat_sat(instance):
 @pytest.mark.parametrize("instance", get_unsatisfiable_instances(only_small=True))
 def test_gsat_unsat(instance):
     assert not is_satisfiable_gsat(instance)
-

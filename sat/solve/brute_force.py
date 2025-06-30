@@ -16,17 +16,18 @@ def is_satisfiable_brute_force(instance: Instance) -> bool:
     all_variables = instance.get_all_variables()
 
     # Iterate over all possible assignments (binary representation of assignments)
-    for assignment_index in range(2 ** instance.num_variables):
+    for assignment_index in range(2**instance.num_variables):
 
         # Convert integer to binary representation
-        assignment_binary = format(assignment_index, f'0{instance.num_variables}b')
+        assignment_binary = format(assignment_index, f"0{instance.num_variables}b")
 
         # Parse binary number as assignment
-        assignment = {var: val == '1' for var, val in zip(all_variables, assignment_binary)}
+        assignment = {
+            var: val == "1" for var, val in zip(all_variables, assignment_binary)
+        }
 
         # Check assignment
         if check_assignment(instance, assignment):
             return True
 
     return False
-

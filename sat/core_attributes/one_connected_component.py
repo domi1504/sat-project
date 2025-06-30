@@ -1,4 +1,4 @@
-import networkx as nx
+import networkx as nx  # type: ignore
 from sat.instance.graph.graph_by_clauses import create_graph_by_clauses
 from sat.instance.instance import Instance
 

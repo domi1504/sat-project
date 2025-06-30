@@ -23,11 +23,14 @@ def is_satisfiable_two_sided_deterministic_local_search(instance: Instance) -> b
     all_0_assignment = {variable: False for variable in instance.get_all_variables()}
     all_1_assignment = {variable: True for variable in instance.get_all_variables()}
 
-    if search_hamming_ball(instance, all_0_assignment, int(math.ceil(instance.num_variables / 2))):
+    if search_hamming_ball(
+        instance, all_0_assignment, int(math.ceil(instance.num_variables / 2))
+    ):
         return True
 
-    if search_hamming_ball(instance, all_1_assignment, int(math.ceil(instance.num_variables / 2))):
+    if search_hamming_ball(
+        instance, all_1_assignment, int(math.ceil(instance.num_variables / 2))
+    ):
         return True
 
     return False
-

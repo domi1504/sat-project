@@ -4,7 +4,9 @@ from sat.instance.utils import check_assignment, get_unsatisfied_clauses
 from sat.solve.local_search.greedy_sat import get_variable_to_flip_gsat
 
 
-def get_all_variables_of_unsatisfied_clauses(instance: Instance, assignment: dict[int, bool]) -> set[int]:
+def get_all_variables_of_unsatisfied_clauses(
+    instance: Instance, assignment: dict[int, bool]
+) -> set[int]:
     """
     Returns the set of all variables that appear in at least one unsatisfied clause
     under the current assignment.
@@ -24,7 +26,9 @@ def get_all_variables_of_unsatisfied_clauses(instance: Instance, assignment: dic
     return occurring_variables
 
 
-def is_satisfiable_gsat_with_walk(instance: Instance, max_tries: int = 1000, p: float = 0.55) -> bool:
+def is_satisfiable_gsat_with_walk(
+    instance: Instance, max_tries: int = 1000, p: float = 0.55
+) -> bool:
     """
     Determines satisfiability using WalkSAT — a variant of GSAT with probabilistic walks.
 
@@ -52,7 +56,9 @@ def is_satisfiable_gsat_with_walk(instance: Instance, max_tries: int = 1000, p: 
     for _ in range(max_tries):
 
         # Restart: New assignment chosen u.a.r.
-        assignment = {variable: random.choice([True, False]) for variable in all_variables}
+        assignment = {
+            variable: random.choice([True, False]) for variable in all_variables
+        }
 
         for __ in range(max_flips):
 
@@ -62,7 +68,9 @@ def is_satisfiable_gsat_with_walk(instance: Instance, max_tries: int = 1000, p: 
 
             if random.uniform(0, 1) < p:
                 # Select a variable at random from all vars occuring in an unsatisfied clause
-                variables_to_choose_from = get_all_variables_of_unsatisfied_clauses(instance, assignment)
+                variables_to_choose_from = get_all_variables_of_unsatisfied_clauses(
+                    instance, assignment
+                )
                 selected_variable = random.choice(tuple(variables_to_choose_from))
             else:
                 # Use standard GSAT procedure
@@ -72,4 +80,3 @@ def is_satisfiable_gsat_with_walk(instance: Instance, max_tries: int = 1000, p: 
             assignment[selected_variable] = not assignment[selected_variable]
 
     return False
-

@@ -1,4 +1,4 @@
-import networkx as nx
+import networkx as nx  # type:ignore
 from sat.instance.instance import Instance
 
 """
@@ -12,6 +12,7 @@ E.g.
 ===
 (A) --- (B) --- (C)
 """
+
 
 def create_graph_by_clauses(instance: Instance) -> nx.Graph:
 
@@ -30,13 +31,17 @@ def create_graph_by_clauses(instance: Instance) -> nx.Graph:
 
             # For each variable: check if it is contained in both clauses
             for k in range(instance.num_variables):
-                if 1 in instance.get_bit_matrix()[i, 2 * k : 2 * k + 2] and 1 in instance.get_bit_matrix()[j, 2 * k : 2 * k + 2]:
+                if (
+                    1 in instance.get_bit_matrix()[i, 2 * k : 2 * k + 2]
+                    and 1 in instance.get_bit_matrix()[j, 2 * k : 2 * k + 2]
+                ):
                     shared_variables.append(str(k))
 
             if len(shared_variables) > 0:
-                g.add_edge(i, j, shared_variables=','.join(shared_variables))
+                g.add_edge(i, j, shared_variables=",".join(shared_variables))
 
     return g
+
 
 def create_multi_graph_by_clauses(instance: Instance) -> nx.MultiGraph:
     """
@@ -58,8 +63,10 @@ def create_multi_graph_by_clauses(instance: Instance) -> nx.MultiGraph:
 
             # For each variable: check if it is contained in both clauses
             for k in range(instance.num_variables):
-                if 1 in instance.bit_matrix[i, 2 * k : 2 * k + 2] and 1 in instance.bit_matrix[j, 2 * k : 2 * k + 2]:
+                if (
+                    1 in instance.get_bit_matrix()[i, 2 * k : 2 * k + 2]
+                    and 1 in instance.get_bit_matrix()[j, 2 * k : 2 * k + 2]
+                ):
                     g.add_edge(i, j, shared_variable=k)
 
     return g
-

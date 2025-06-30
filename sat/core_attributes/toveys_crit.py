@@ -26,8 +26,11 @@ def is_tovey_satisfied(instance: Instance) -> bool:
     for variable_index in range(instance.num_variables):
 
         # If #positive_occurences + #negative_occurences > k: Can be unsatisfiable.
-        if np.sum(instance.get_bit_matrix()[:, 2 * variable_index]) + np.sum(instance.get_bit_matrix()[:, 2 * variable_index + 1]) > k:
+        if (
+            np.sum(instance.get_bit_matrix()[:, 2 * variable_index])
+            + np.sum(instance.get_bit_matrix()[:, 2 * variable_index + 1])
+            > k
+        ):
             return True
 
     return False
-

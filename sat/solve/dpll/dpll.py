@@ -49,8 +49,10 @@ def is_satisfiable_dpll(input_instance: Instance, heuristic: DPLLHeuristic) -> b
                 # Unit clause found: set variable.
                 stack.append(
                     DPLLNode(
-                        assign_and_simplify(current_node.instance, {abs(clause[0]): clause[0] > 0}),
-                        current_node.assignments.copy() + [clause[0]]
+                        assign_and_simplify(
+                            current_node.instance, {abs(clause[0]): clause[0] > 0}
+                        ),
+                        current_node.assignments.copy() + [clause[0]],
                     )
                 )
                 unit_clause_found = True
@@ -66,8 +68,10 @@ def is_satisfiable_dpll(input_instance: Instance, heuristic: DPLLHeuristic) -> b
             # Pure literal found: set variable.
             stack.append(
                 DPLLNode(
-                    assign_and_simplify(current_node.instance, {abs(pure_literal): pure_literal > 0}),
-                    current_node.assignments.copy() + [pure_literal]
+                    assign_and_simplify(
+                        current_node.instance, {abs(pure_literal): pure_literal > 0}
+                    ),
+                    current_node.assignments.copy() + [pure_literal],
                 )
             )
             # Evaluate after now removed pure literal
@@ -82,8 +86,10 @@ def is_satisfiable_dpll(input_instance: Instance, heuristic: DPLLHeuristic) -> b
         # Try second branch (opposite of heuristic's suggestion, stack, so this will get processed later)
         stack.append(
             DPLLNode(
-                assign_and_simplify(current_node.instance, {abs(literal): not is_positive}),
-                current_node.assignments.copy() + [-literal]
+                assign_and_simplify(
+                    current_node.instance, {abs(literal): not is_positive}
+                ),
+                current_node.assignments.copy() + [-literal],
             )
         )
 
@@ -91,10 +97,9 @@ def is_satisfiable_dpll(input_instance: Instance, heuristic: DPLLHeuristic) -> b
         stack.append(
             DPLLNode(
                 assign_and_simplify(current_node.instance, {abs(literal): is_positive}),
-                current_node.assignments.copy() + [literal]
+                current_node.assignments.copy() + [literal],
             )
         )
 
     # If stack is exhausted without finding a solution
     return False
-

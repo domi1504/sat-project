@@ -26,8 +26,9 @@ def is_satisfiable_dantsin_local_search(instance: Instance) -> bool:
     for assignment in cover_code:
 
         # Search through hamming ball with radius delta * n
-        if search_hamming_ball(instance, assignment, int(instance.num_variables * delta)):
+        if search_hamming_ball(
+            instance, assignment, int(instance.num_variables * delta)
+        ):
             return True
 
     return False
-

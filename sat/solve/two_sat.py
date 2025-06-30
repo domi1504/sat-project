@@ -1,4 +1,4 @@
-import networkx as nx
+import networkx as nx  # type: ignore
 from sat.core_attributes.two_sat import is_2_sat
 from sat.instance.instance import Instance
 
@@ -21,8 +21,8 @@ def is_satisfiable_2_sat(instance: Instance) -> bool:
     implication_graph = nx.DiGraph()
 
     # Two nodes per variable
-    implication_graph.add_nodes_from([i+1 for i in range(instance.num_variables)])
-    implication_graph.add_nodes_from([-(i+1) for i in range(instance.num_variables)])
+    implication_graph.add_nodes_from([i + 1 for i in range(instance.num_variables)])
+    implication_graph.add_nodes_from([-(i + 1) for i in range(instance.num_variables)])
 
     # For each clause (x, y) add 2 edges: (-x -> y), (-y, x)
     for clause in instance.clauses:
@@ -45,4 +45,3 @@ def is_satisfiable_2_sat(instance: Instance) -> bool:
             return False
 
     return True
-

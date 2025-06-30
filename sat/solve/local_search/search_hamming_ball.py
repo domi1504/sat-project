@@ -3,7 +3,9 @@ from sat.instance.instance import Instance
 from sat.instance.utils import check_assignment, get_unsatisfied_clauses
 
 
-def search_hamming_ball(instance: Instance, assignment: dict[int, bool], radius: int) -> bool:
+def search_hamming_ball(
+    instance: Instance, assignment: dict[int, bool], radius: int
+) -> bool:
     """
     Performs a recursive local search in the Hamming ball of specified radius of a given assignment.
 
@@ -41,11 +43,8 @@ def search_hamming_ball(instance: Instance, assignment: dict[int, bool], radius:
         if search_hamming_ball(
             instance,
             {**assignment, abs(literal): not assignment[abs(literal)]},
-            radius - 1
+            radius - 1,
         ):
             return True
 
     return False
-
-
-

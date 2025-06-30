@@ -36,7 +36,7 @@ def syntax_check_bit_matrix(matrix: str):
 
     # Check for valid chars
     for c in matrix:
-        if c not in ['0', '1', '\n']:
+        if c not in ["0", "1", "\n"]:
             return False
 
     # Last line empty
@@ -48,7 +48,7 @@ def syntax_check_bit_matrix(matrix: str):
             return False
         if len(l) != len(lines[0]):
             return False
-        if len(l) != l.count('0') + l.count('1'):
+        if len(l) != l.count("0") + l.count("1"):
             return False
 
     return True
@@ -103,4 +103,3 @@ def write_bit_matrix(instance: Instance) -> str:
         lines += str(row).replace(" ", "").replace("[", "").replace("]", "")
         lines += "\n"
     return lines
-

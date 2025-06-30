@@ -8,14 +8,16 @@ from sat.core_attributes.two_sat import is_2_sat
 from sat.instance.instance import Instance, get_instance_from_bit_matrix
 
 
-def _remove_clauses_and_literals(matrix: np.ndarray, clauses: set, literals: set) -> np.ndarray:
+def _remove_clauses_and_literals(
+    matrix: np.ndarray, clauses: set, literals: set
+) -> np.ndarray:
 
-    clauses = sorted(clauses)
-    literals = sorted(literals)
+    clauses_sorted = sorted(clauses)
+    literals_sorted = sorted(literals)
 
-    for index in clauses[::-1]:
+    for index in clauses_sorted[::-1]:
         matrix = np.delete(matrix, index, axis=0)
-    for column in literals[::-1]:
+    for column in literals_sorted[::-1]:
         matrix = np.delete(matrix, column, axis=1)
 
     return matrix
@@ -52,7 +54,9 @@ def _remove_unit_clauses(matrix: np.ndarray) -> tuple[np.ndarray, bool]:
             to_remove_literals.add(lit_index_2)
 
     if len(to_remove_clauses) > 0 or len(to_remove_literals) > 0:
-        matrix = _remove_clauses_and_literals(matrix, to_remove_clauses, to_remove_literals)
+        matrix = _remove_clauses_and_literals(
+            matrix, to_remove_clauses, to_remove_literals
+        )
         return matrix, True
     return matrix, False
 
@@ -61,7 +65,7 @@ def _remove_always_true_clauses(matrix: np.ndarray) -> tuple[np.ndarray, bool]:
     to_remove_clauses = set()
     for i in range(matrix.shape[0]):
         for j in range(0, matrix.shape[1], 2):
-            if matrix[i, j] == 1 and matrix[i, j+1] == 1:
+            if matrix[i, j] == 1 and matrix[i, j + 1] == 1:
                 to_remove_clauses.add(i)
 
     if len(to_remove_clauses) > 0:
@@ -104,7 +108,9 @@ def _remove_pure_literals(matrix: np.ndarray) -> tuple[np.ndarray, bool]:
             to_remove_literals.add(j + 1)
 
     if len(to_remove_clauses) > 0 or len(to_remove_literals) > 0:
-        matrix = _remove_clauses_and_literals(matrix, to_remove_clauses, to_remove_literals)
+        matrix = _remove_clauses_and_literals(
+            matrix, to_remove_clauses, to_remove_literals
+        )
         return matrix, True
 
     return matrix, False
@@ -112,7 +118,7 @@ def _remove_pure_literals(matrix: np.ndarray) -> tuple[np.ndarray, bool]:
 
 def _merge_zwei_eige_zwillinge(matrix: np.ndarray) -> tuple[np.ndarray, bool]:
 
-    affected_clauses = []
+    affected_clauses: list[int] = []
     affected_variable = -1
 
     for i in range(matrix.shape[0] - 1):
@@ -130,7 +136,9 @@ def _merge_zwei_eige_zwillinge(matrix: np.ndarray) -> tuple[np.ndarray, bool]:
                     continue
 
                 # One 00, other not
-                if (c1[index] == 0 and c1[index + 1] == 0) or (c2[index] == 0 and c2[index + 1] == 0):
+                if (c1[index] == 0 and c1[index + 1] == 0) or (
+                    c2[index] == 0 and c2[index + 1] == 0
+                ):
                     is_hit = False
                     break
 
@@ -142,7 +150,7 @@ def _merge_zwei_eige_zwillinge(matrix: np.ndarray) -> tuple[np.ndarray, bool]:
                     break
 
             if is_hit:
-                affected_clauses = (i, j)
+                affected_clauses = [i, j]
                 affected_variable = difference_at_index
                 break
 

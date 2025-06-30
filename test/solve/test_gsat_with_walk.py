@@ -11,4 +11,3 @@ def test_gsat_with_walk_sat(instance):
 @pytest.mark.parametrize("instance", get_unsatisfiable_instances(only_small=True))
 def test_gsat_with_walk_unsat(instance):
     assert not is_satisfiable_gsat_with_walk(instance)
-

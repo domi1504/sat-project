@@ -79,9 +79,13 @@ def dlcs(instance: Instance) -> int:
 
     # Find the variable with the most occurrences (smallest in case of conflict)
     candidates = list(instance.get_all_variables())
-    highest_occurrence_variable = max(candidates, key=lambda n: (counts.get(n, 0) + counts.get(-n, 0), n))
+    highest_occurrence_variable = max(
+        candidates, key=lambda n: (counts.get(n, 0) + counts.get(-n, 0), n)
+    )
 
-    if counts.get(highest_occurrence_variable, 0) >= counts.get(-highest_occurrence_variable, 0):
+    if counts.get(highest_occurrence_variable, 0) >= counts.get(
+        -highest_occurrence_variable, 0
+    ):
         return highest_occurrence_variable
     else:
         return -highest_occurrence_variable
@@ -110,7 +114,9 @@ def rdlcs(instance: Instance) -> int:
 
     # Find the variable with the most occurrences (smallest in case of conflict)
     candidates = list(instance.get_all_variables())
-    highest_occurrence_variable = max(candidates, key=lambda n: (counts.get(n, 0) + counts.get(-n, 0), n))
+    highest_occurrence_variable = max(
+        candidates, key=lambda n: (counts.get(n, 0) + counts.get(-n, 0), n)
+    )
 
     if random() < 0.5:
         return highest_occurrence_variable
@@ -138,7 +144,9 @@ def mom(instance: Instance) -> int:
     k = min(len(clause) for clause in instance.clauses)
 
     # k-sized clauses flattened
-    all_literals_of_k_clauses = [lit for clause in instance.clauses if len(clause) == k for lit in clause]
+    all_literals_of_k_clauses = [
+        lit for clause in instance.clauses if len(clause) == k for lit in clause
+    ]
 
     # Count number of occurrences of each literal
     # {1: 1, 2: 3, -1: 4, ...}
@@ -146,14 +154,19 @@ def mom(instance: Instance) -> int:
 
     # Find the variables with the most occurrences
     candidates = list(instance.get_all_variables())
-    max_value = max(counts_in_k_clauses.get(n, 0) + counts_in_k_clauses.get(-n, 0) for n in candidates)
+    max_value = max(
+        counts_in_k_clauses.get(n, 0) + counts_in_k_clauses.get(-n, 0)
+        for n in candidates
+    )
 
     # Find the variables with the most occurrences
     candidates = list(instance.get_all_variables())
 
     # Collect all numbers that achieve this max value
     candidates = list(
-        n for n in candidates if counts_in_k_clauses.get(n, 0) + counts_in_k_clauses.get(-n, 0) == max_value
+        n
+        for n in candidates
+        if counts_in_k_clauses.get(n, 0) + counts_in_k_clauses.get(-n, 0) == max_value
     )
 
     # Pick the candidate with the most evenly distribution between positive and negative occurrences
@@ -162,7 +175,10 @@ def mom(instance: Instance) -> int:
     # Always return positive literal
     return max(
         candidates,
-        key=lambda n: ((counts_in_k_clauses.get(n, 0) * counts_in_k_clauses.get(-n, 0)), -n)
+        key=lambda n: (
+            (counts_in_k_clauses.get(n, 0) * counts_in_k_clauses.get(-n, 0)),
+            -n,
+        ),
     )
 
 
@@ -183,7 +199,7 @@ def jeroslaw_wang(instance: Instance) -> int:
     assert instance.num_variables > 0
 
     # Map storing scores of all literals
-    scores = {}
+    scores: dict[int, int] = {}
 
     # Compute scores of all literals
     for clause in instance.clauses:
@@ -215,7 +231,7 @@ def jeroslaw_wang_two_sided(instance: Instance) -> int:
     assert instance.num_variables > 0
 
     # Map storing scores of all literals
-    scores = {}
+    scores: dict[int, int] = {}
 
     # Compute scores of all literals
     for clause in instance.clauses:
@@ -224,7 +240,9 @@ def jeroslaw_wang_two_sided(instance: Instance) -> int:
 
     # Get variable with best score (in case of conflict, take smaller variable)
     candidates = list(instance.get_all_variables())
-    highscore_variable = max(candidates, key=lambda n: (scores.get(n, 0) + scores.get(-n, 0), -n))
+    highscore_variable = max(
+        candidates, key=lambda n: (scores.get(n, 0) + scores.get(-n, 0), -n)
+    )
 
     if scores.get(highscore_variable, 0) >= scores.get(-highscore_variable, 0):
         return highscore_variable
@@ -248,4 +266,3 @@ def shortest_clause(instance: Instance) -> int:
 
     # Get first literal from first occurring clause with shortest length
     return next(c for c in instance.clauses if len(c) == shortest_clause_length)[0]
-

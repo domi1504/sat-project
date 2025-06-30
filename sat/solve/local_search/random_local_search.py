@@ -35,7 +35,7 @@ def is_satisfiable_random_local_search(instance: Instance, error_rate: float) ->
     n = instance.num_variables
     c = -np.log(error_rate)
     limit = int(math.ceil(delta * n))
-    numerator = c * (2 ** n)
+    numerator = c * (2**n)
     denominator = sum(math.comb(n, i) for i in range(limit + 1))
     nr_iterations = int(math.ceil(numerator / denominator))
 
@@ -44,12 +44,12 @@ def is_satisfiable_random_local_search(instance: Instance, error_rate: float) ->
     for _ in range(nr_iterations):
 
         # Start with random assignment
-        assignment = {variable: random.choice([True, False]) for variable in all_variables}
+        assignment = {
+            variable: random.choice([True, False]) for variable in all_variables
+        }
 
         # Search through hamming ball with radius r
         if search_hamming_ball(instance, assignment, int(math.ceil(n * delta))):
             return True
 
     return False
-
-

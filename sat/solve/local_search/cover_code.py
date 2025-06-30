@@ -24,7 +24,9 @@ COVER_CODE_N4_R1 = [
 ]
 
 
-def self_concatenate(assignment: list[dict[int, bool]], k: int) -> list[dict[int, bool]]:
+def self_concatenate(
+    assignment: list[dict[int, bool]], k: int
+) -> list[dict[int, bool]]:
     """
     Concatenates the given codewords with themselves k times to create longer codewords.
 
@@ -53,13 +55,15 @@ def self_concatenate(assignment: list[dict[int, bool]], k: int) -> list[dict[int
         new_codeword = {}
         for i, codeword in enumerate(tuple_of_codewords):
             # From 1 to n, not 0 to n-1
-            for j in range(1, n+1):
+            for j in range(1, n + 1):
                 new_codeword[i * n + j] = codeword.get(j, False)
         result.append(new_codeword)
     return result
 
 
-def adapt_code(extended_code: list[dict[int, bool]], target_n: int, radius: int) -> list[dict[int, bool]]:
+def adapt_code(
+    extended_code: list[dict[int, bool]], target_n: int, radius: int
+) -> list[dict[int, bool]]:
     """
     Truncates and adjusts a covering code to match a target dimension, maintaining the covering property.
 
@@ -121,7 +125,9 @@ def generate_cover_code_greedy(n: int, delta: float) -> list[dict[int, bool]]:
 
     # Shift, so that indices start from 1 for each assignment
     # [{1: v, 2: v, ...}, ...] instead of [{0: v, 1: v, ...}, ...]
-    def shift_codeword_indices(codewords: list[dict[int, bool]]) -> list[dict[int, bool]]:
+    def shift_codeword_indices(
+        codewords: list[dict[int, bool]],
+    ) -> list[dict[int, bool]]:
         shifted_codewords = []
         for cw in codewords:
             shifted_cw = {index + 1: value for index, value in cw.items()}

@@ -14,12 +14,11 @@ def is_biathlet_satisfied(instance: Instance) -> bool:
     """
 
     # Number of possible assignments
-    nr_of_targets = 2 ** instance.num_variables
+    nr_of_targets = 2**instance.num_variables
 
     nr_of_shots = 0
     for clause in instance.get_bit_matrix():
         # 2 ^ (|V| - k), k = nr of literals in the clause
-        nr_of_shots += (2 ** (instance.num_variables - np.sum(clause)))
+        nr_of_shots += 2 ** (instance.num_variables - np.sum(clause))
 
     return nr_of_shots >= nr_of_targets
-

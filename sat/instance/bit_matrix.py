@@ -72,7 +72,7 @@ def clauses_to_bit_matrix(clauses: list[tuple[int, ...]]) -> np.ndarray:
     num_clauses = len(clauses)
 
     # Count variables & create mapping to indices
-    var_index_map = {}
+    var_index_map: dict[int, int] = {}
     cur_index = 0
     for clause in clauses:
         for lit in clause:
@@ -89,7 +89,9 @@ def clauses_to_bit_matrix(clauses: list[tuple[int, ...]]) -> np.ndarray:
         for lit in clause:
             is_negated = lit < 0
             var = abs(lit)
-            bit_matrix[clause_index][2 * var_index_map[var] + (1 if is_negated else 0)] = 1
+            bit_matrix[clause_index][
+                2 * var_index_map[var] + (1 if is_negated else 0)
+            ] = 1
 
     return bit_matrix
 

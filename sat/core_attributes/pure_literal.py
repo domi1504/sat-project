@@ -27,4 +27,3 @@ def get_pure_literal(instance: Instance) -> Optional[int]:
             return -variable
 
     return None
-
