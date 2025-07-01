@@ -38,6 +38,3 @@ Reference: Schöning p.111 f.
 - DP-Algorithm
 - Stalmarck
 - OBDSS / Symbolic SAT
-- Resolution (?)
-
-

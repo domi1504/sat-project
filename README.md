@@ -18,11 +18,11 @@ In this project, I want to grapple with the satisfiability problem (SAT).
   - Clause-Shared-Variables-Graph
   - Clause-Literal-Graph
   - Variable-Interaction-Graph
-- Extract the "core" of a SAT-instance (of course in poly-time)
-  - Each variable x occurs at least once as x and -x
+- Extract the "kernel" of a SAT-instance (of course in poly-time)
+  - Each variable x occurs at least once as x and -x (= no pure literals)
   - No unit clauses
-  - No trivial clauses (x, -x)
-  - No double clauses
+  - No tautological clauses (x, -x)
+  - No duplicate clauses
   - No superset clauses
   - Biathlet fulfilled
   - LLL fulfilled
@@ -32,7 +32,6 @@ In this project, I want to grapple with the satisfiability problem (SAT).
   - Not a 2-SAT instance
   - Not a Horn-Instance or Renamable-Horn instance
   - TODO: Blocked clause elimination? (see https://users.aalto.fi/%7Etjunttil/2020-DP-AUT/notes-sat/preprocessing.html)
-- Detect & solve polynomially solvable SAT-instances (as e.g. horn-clauses), (of course in poly-time)
 
 ## Phase 2
 
@@ -72,9 +71,14 @@ In this project, I want to grapple with the satisfiability problem (SAT).
 
 # Phase 3
 
+TODO.
+
+Ideas:
+
+- Write a little docu / wiki about the algorithms / ideas 
+- create animation of the order the assignments get checked in different approaches
 - Get some sample SAT instances from online benchmarks
 - Run those algorithms against sample instances and measure their performance (not really important, since not optimized anyway)
-- Write a little docu / wiki about the algorithms / ideas
 - Get a feeling for what instance sizes are possible to deal with nowadays
 - Get to know the State-Of-The-Art SAT solvers, and on what base approaches they are building upon
   z.b. https://github.com/jaras209/SAT_solver/blob/master/cdcl.py, "2-watched literals" (irgendne art index)
@@ -93,18 +97,17 @@ In this project, I want to grapple with the satisfiability problem (SAT).
   - By combining all induced attributes of the instance
   - Is it possible to use it for a SAT-solver?
 
-
 ## Literature
 
 - Das Erfüllbarkeitsproblem SAT (Schöning, [siehe hier](https://www.google.de/books/edition/Das_Erf%C3%BCllbarkeitsproblem_SAT/55HzCQAAQBAJ?hl=de&gbpv=0))
+- Handbook of Satisfiability (Biere et al.)
 - TAOCP, 4B (Knuth)
-- Handbook von Biere?
 
 ## Random more ideas
 
 - Implement a SAT-solver in a basic language (Assembler, or even TM) (maybe there is something to learn from that?)
 
-## Links
+## Helpful links
 
 https://pysathq.github.io/
 https://cse442-17f.github.io/Conflict-Driven-Clause-Learning/
