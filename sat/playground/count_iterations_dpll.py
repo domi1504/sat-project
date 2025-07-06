@@ -36,7 +36,7 @@ ALGO_NAMES = [
 
 for ALGO, ALGO_NAME in zip(ALGOS, ALGO_NAMES):
 
-    sat_results = {}
+    sat_results: dict = {}
 
     for gamma in GAMMAS:
         sat_results[gamma] = {}
@@ -50,6 +50,5 @@ for ALGO, ALGO_NAME in zip(ALGOS, ALGO_NAMES):
                     sat_results[gamma][n].append(nr_its)
 
     # At the end of the script, write out the results
-    with open(f'sat_results_50_{ALGO_NAME}.json', 'w') as f:
+    with open(f"sat_results_50_{ALGO_NAME}.json", "w") as f:
         json.dump(sat_results, f, indent=4)
-

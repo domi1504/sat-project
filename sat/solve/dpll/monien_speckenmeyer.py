@@ -77,11 +77,12 @@ def is_satisfiable_monien_speckenmeyer(
                 if is_self_sufficient_assignment(current_node.instance, assignments):
                     stack.append(
                         DPLLNode(
-                            assign_and_simplify(
-                                current_node.instance, assignments
+                            assign_and_simplify(current_node.instance, assignments),
+                            current_node.assignments.copy()
+                            + list(
+                                var if value else -var
+                                for (var, value) in assignments.items()
                             ),
-                            current_node.assignments.copy() + list(
-                                var if value else -var for (var, value) in assignments.items()),
                         )
                     )
                     found = True
@@ -105,12 +106,12 @@ def is_satisfiable_monien_speckenmeyer(
 
             stack.append(
                 DPLLNode(
-                    assign_and_simplify(
-                        current_node.instance, assignments
+                    assign_and_simplify(current_node.instance, assignments),
+                    current_node.assignments.copy()
+                    + list(
+                        var if value else -var for (var, value) in assignments.items()
                     ),
-                    current_node.assignments.copy() + list(var if value else -var for (var, value) in assignments.items()),
                 )
             )
 
     return False, iteration_count
-

@@ -11,7 +11,9 @@ from sat.solve.dpll.heuristics import DPLLHeuristic
 # todo(sometime). auch sowas wie conflict handling rausziehen?
 
 
-def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuristic) -> tuple[bool, int]:
+def is_satisfiable_dpll_cdcl_ncbt(
+    input_instance: Instance, heuristic: DPLLHeuristic
+) -> tuple[bool, int]:
     """
     Determines the satisfiability of a SAT instance using the DPLL algorithm with CDCL (Conflict-Driven Clause Learning)
     and NCBT (Non-Chronological Backtracking).

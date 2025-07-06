@@ -5,7 +5,9 @@ from sat.solve.dpll.dpll_node import DPLLNode
 from sat.solve.dpll.heuristics import DPLLHeuristic
 
 
-def is_satisfiable_dpll(input_instance: Instance, heuristic: DPLLHeuristic) -> tuple[bool, int]:
+def is_satisfiable_dpll(
+    input_instance: Instance, heuristic: DPLLHeuristic
+) -> tuple[bool, int]:
     """
     Determines the satisfiability of a SAT instance using the DPLL (Davis–Putnam–Logemann–Loveland) algorithm.
 

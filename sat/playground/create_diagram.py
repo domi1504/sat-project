@@ -8,13 +8,18 @@ os.makedirs("../../experiments/plots", exist_ok=True)
 
 
 # filenames = ["sat_results_50_gsat", "sat_results_50_gsat-walk", "sat_results_50_wsat", "sat_results_50_schoening"]
-filenames = ["sat_results_50_dpll", "sat_results_50_dpll-cdcl", "sat_results_50_ms", "sat_results_50_ms-ab"]
+filenames = [
+    "sat_results_50_dpll",
+    "sat_results_50_dpll-cdcl",
+    "sat_results_50_ms",
+    "sat_results_50_ms-ab",
+]
 
 
 for filename in filenames:
 
     # Load the SAT results
-    with open(f'../../experiments/{filename}.json', 'r') as f:
+    with open(f"../../experiments/{filename}.json", "r") as f:
         sat_results = json.load(f)
 
     # Plotting
@@ -33,10 +38,12 @@ for filename in filenames:
             avg_iterations.append(avg)
 
             # Scatter individual points
-            plt.scatter([n] * len(iterations), iterations, alpha=0.5)  # label=f"n={n}" if n == ns[0] else ""
+            plt.scatter(
+                [n] * len(iterations), iterations, alpha=0.5
+            )  # label=f"n={n}" if n == ns[0] else ""
 
         # Plot average line
-        plt.plot(ns, avg_iterations, color='black', marker='o', label='Average')
+        plt.plot(ns, avg_iterations, color="black", marker="o", label="Average")
 
         plt.title(f"SAT Solver Iterations for γ = {gamma} (= m / n)")
         plt.xlabel("n (number of variables)")
@@ -50,6 +57,3 @@ for filename in filenames:
         plt.close()
 
     print("Plots saved in 'plots/' directory.")
-
-
-

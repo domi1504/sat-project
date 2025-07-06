@@ -14,15 +14,15 @@ from sat.solve.local_search.walk_sat import is_satisfiable_wsat
 
 
 def gsat_wrapper(inst):
-    return is_satisfiable_gsat(inst, max_tries=2 ** inst.num_variables)
+    return is_satisfiable_gsat(inst, max_tries=2**inst.num_variables)
 
 
 def gsat_walk_wrapper(inst):
-    return is_satisfiable_gsat_with_walk(inst, max_tries=2 ** inst.num_variables)
+    return is_satisfiable_gsat_with_walk(inst, max_tries=2**inst.num_variables)
 
 
 def wsat_wrapper(inst):
-    return is_satisfiable_wsat(inst, max_tries=2 ** inst.num_variables)
+    return is_satisfiable_wsat(inst, max_tries=2**inst.num_variables)
 
 
 def process_one_n(n, gamma, NR_SAMPLES, ALGO):
@@ -34,6 +34,7 @@ def process_one_n(n, gamma, NR_SAMPLES, ALGO):
             _, iters = ALGO(inst)
             results.append(iters)
     return n, results
+
 
 def run_for_algo(ALGO, ALGO_NAME, GAMMAS, N_RANGE, NR_SAMPLES):
     sat_results = {g: {} for g in GAMMAS}
@@ -48,9 +49,10 @@ def run_for_algo(ALGO, ALGO_NAME, GAMMAS, N_RANGE, NR_SAMPLES):
                 sat_results[gamma][n] = results
 
     # Write out results per algorithm
-    with open(f'sat_results_50_{ALGO_NAME}.json', 'w') as f:
+    with open(f"sat_results_50_{ALGO_NAME}.json", "w") as f:
         json.dump(sat_results, f, indent=4)
     print(f"✅ Done: {ALGO_NAME}")
+
 
 if __name__ == "__main__":
     start = time.time()
@@ -71,5 +73,3 @@ if __name__ == "__main__":
         run_for_algo(ALGO, ALGO_NAME, GAMMAS, N_RANGE, NR_SAMPLES)
 
     print("Total time:", time.time() - start)
-
-

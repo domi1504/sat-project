@@ -1,5 +1,7 @@
 import pytest
-from sat.solve.dpll.monien_speckenmeyer_recursive import is_satisfiable_monien_speckenmeyer_recursive
+from sat.solve.dpll.monien_speckenmeyer_recursive import (
+    is_satisfiable_monien_speckenmeyer_recursive,
+)
 from test.solve.utils import get_satisfiable_instances, get_unsatisfiable_instances
 
 

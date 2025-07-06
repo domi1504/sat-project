@@ -5,7 +5,9 @@ from sat.instance.instance import Instance
 from sat.instance.utils import check_assignment, get_unsatisfied_clauses
 
 
-def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> tuple[bool, int]:
+def is_satisfiable_schoening(
+    instance: Instance, error_rate: float = 1e-8
+) -> tuple[bool, int]:
     """
     Determines the satisfiability of a SAT instance using Schöning's probabilistic local search algorithm.
 
@@ -63,4 +65,3 @@ def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> tu
             assignment[selected_variable] = not assignment[selected_variable]
 
     return False, check_count
-
