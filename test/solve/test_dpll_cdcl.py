@@ -10,10 +10,10 @@ from test.solve.utils import (
 @pytest.mark.parametrize("instance", get_satisfiable_instances())
 @pytest.mark.parametrize("heuristic", dpll_heuristics)
 def test_dpll_cdcl_sat(instance, heuristic):
-    assert is_satisfiable_dpll_cdcl_ncbt(instance, heuristic)
+    assert is_satisfiable_dpll_cdcl_ncbt(instance, heuristic)[0]
 
 
 @pytest.mark.parametrize("instance", get_unsatisfiable_instances())
 @pytest.mark.parametrize("heuristic", dpll_heuristics)
 def test_dpll_cdcl_unsat(instance, heuristic):
-    assert not is_satisfiable_dpll_cdcl_ncbt(instance, heuristic)
+    assert not is_satisfiable_dpll_cdcl_ncbt(instance, heuristic)[0]

@@ -32,7 +32,7 @@ def is_satisfiable_paturi_pudlak_zane(
 
     :param instance: The SAT instance to solve.
     :param error_rate: Acceptable error rate (probability of false negative). Lower values increase run time.
-    :return: True if a satisfying assignment is found with high probability, False otherwise.
+    :return: True if a satisfying assignment was found, False otherwise.
     """
 
     # Compute necessary number of iterations to achieve desired error_rate

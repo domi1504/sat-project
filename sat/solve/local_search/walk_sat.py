@@ -48,7 +48,7 @@ def get_variable_to_flip_wsat(
 
 def is_satisfiable_wsat(
     instance: Instance, max_tries: int = 1000, p: float = 0.55
-) -> bool:
+) -> tuple[bool, int]:
     """
     Attempts to solve the SAT instance using the WalkSAT algorithm.
 
@@ -63,14 +63,17 @@ def is_satisfiable_wsat(
     :param instance: The SAT instance to solve.
     :param max_tries: Maximum number of random restarts (default 1000).
     :param p: Probability of making a random flip (default 0.55).
-    :return: True if a satisfying assignment is found, False otherwise.
+    :return: A tuple containing a boolean indicating whether a satisfying assignment was found,
+             and the number of iterations performed during the search.
     """
     all_variables = list(instance.get_all_variables())
 
     # See original paper ("multiple of #variables")
     max_flips = len(all_variables) * 2
 
-    for _ in range(max_tries):
+    checked_assignment_counter = 0
+
+    for iteration_count in range(1, max_tries + 1):
 
         # Restart: New assignment chosen u.a.r.
         assignment = {
@@ -78,10 +81,11 @@ def is_satisfiable_wsat(
         }
 
         for __ in range(max_flips):
+            checked_assignment_counter += 1
 
             # Check if assignments is satisfying assignment
             if check_assignment(instance, assignment):
-                return True
+                return True, checked_assignment_counter
 
             # Select unsatisfied clause at random
             unsatisfied_clauses = get_unsatisfied_clauses(instance, assignment)
@@ -102,4 +106,4 @@ def is_satisfiable_wsat(
             # Flip literal in assignment
             assignment[selected_variable] = not assignment[selected_variable]
 
-    return False
+    return False, checked_assignment_counter

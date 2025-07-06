@@ -5,9 +5,9 @@ from test.solve.utils import get_satisfiable_instances, get_unsatisfiable_instan
 
 @pytest.mark.parametrize("instance", get_satisfiable_instances(only_small=True))
 def test_schoening_sat(instance):
-    assert is_satisfiable_schoening(instance)
+    assert is_satisfiable_schoening(instance)[0]
 
 
 @pytest.mark.parametrize("instance", get_unsatisfiable_instances(only_small=True))
 def test_schoening_unsat(instance):
-    assert not is_satisfiable_schoening(instance)
+    assert not is_satisfiable_schoening(instance)[0]

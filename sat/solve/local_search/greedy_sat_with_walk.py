@@ -28,7 +28,7 @@ def get_all_variables_of_unsatisfied_clauses(
 
 def is_satisfiable_gsat_with_walk(
     instance: Instance, max_tries: int = 1000, p: float = 0.55
-) -> bool:
+) -> tuple[bool, int]:
     """
     Determines satisfiability using WalkSAT — a variant of GSAT with probabilistic walks.
 
@@ -45,7 +45,8 @@ def is_satisfiable_gsat_with_walk(
     :param instance: The SAT instance to solve.
     :param max_tries: Maximum number of random restarts (default: 1000).
     :param p: Probability of performing a random walk step (default: 0.55).
-    :return: True if a satisfying assignment is found; otherwise, False.
+    :return: A tuple containing a boolean indicating whether a satisfying assignment was found,
+             and the number of iterations performed during the search.
     """
 
     all_variables = list(instance.get_all_variables())
@@ -53,7 +54,9 @@ def is_satisfiable_gsat_with_walk(
     # See original paper ("multiple of #variables")
     max_flips = len(all_variables) * 2
 
-    for _ in range(max_tries):
+    checked_assignment_counter = 0
+
+    for _ in range(1, max_tries + 1):
 
         # Restart: New assignment chosen u.a.r.
         assignment = {
@@ -62,9 +65,11 @@ def is_satisfiable_gsat_with_walk(
 
         for __ in range(max_flips):
 
+            checked_assignment_counter += 1
+
             # Check if assignments is satisfying assignment
             if check_assignment(instance, assignment):
-                return True
+                return True, checked_assignment_counter
 
             if random.uniform(0, 1) < p:
                 # Select a variable at random from all vars occuring in an unsatisfied clause
@@ -79,4 +84,4 @@ def is_satisfiable_gsat_with_walk(
             # Flip literal in assignment
             assignment[selected_variable] = not assignment[selected_variable]
 
-    return False
+    return False, checked_assignment_counter

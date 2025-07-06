@@ -11,9 +11,7 @@ from sat.solve.dpll.heuristics import DPLLHeuristic
 # todo(sometime). auch sowas wie conflict handling rausziehen?
 
 
-def is_satisfiable_dpll_cdcl_ncbt(
-    input_instance: Instance, heuristic: DPLLHeuristic
-) -> bool:
+def is_satisfiable_dpll_cdcl_ncbt(input_instance: Instance, heuristic: DPLLHeuristic) -> tuple[bool, int]:
     """
     Determines the satisfiability of a SAT instance using the DPLL algorithm with CDCL (Conflict-Driven Clause Learning)
     and NCBT (Non-Chronological Backtracking).
@@ -47,7 +45,8 @@ def is_satisfiable_dpll_cdcl_ncbt(
     :param input_instance: The SAT instance to solve.
     :param heuristic: A function that selects the next literal to branch on.
                       It should return a signed literal, where the sign indicates the preferred polarity.
-    :return: True if the instance is satisfiable, False otherwise.
+    :return: A tuple containing a boolean indicating whether the instance is satisfiable,
+        and the number of iterations performed during the search.
     """
 
     decision_level = 0
@@ -68,20 +67,24 @@ def is_satisfiable_dpll_cdcl_ncbt(
         )
     ]
 
+    # For analysis purposes only
+    iteration_count = 0
+
     # DPLL search procedure
     while stack:
         current_node = stack.pop()
+        iteration_count += 1
 
         """ Check if no clauses left -> satisfiable """
         if current_node.instance.num_clauses == 0:
-            return True
+            return True, iteration_count
 
         """ Check for empty clause -> conflict """
         if current_node.instance.has_empty_clause():
 
             if decision_level == 0:
                 # no backtrack possible.
-                return False
+                return False, iteration_count
 
             """ Conflict analysis """
 
@@ -298,4 +301,4 @@ def is_satisfiable_dpll_cdcl_ncbt(
                 )
             )
 
-    return False
+    return False, iteration_count

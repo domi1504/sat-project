@@ -5,7 +5,7 @@ from sat.instance.instance import Instance
 from sat.instance.utils import check_assignment, get_unsatisfied_clauses
 
 
-def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> bool:
+def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> tuple[bool, int]:
     """
     Determines the satisfiability of a SAT instance using Schöning's probabilistic local search algorithm.
 
@@ -20,7 +20,9 @@ def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> bo
 
     :param instance: The SAT instance to solve.
     :param error_rate: Desired upper bound on the failure probability (default is 1e-8).
-    :return: True if a satisfying assignment is found with high probability, False otherwise.
+    :return: A tuple containing a boolean indicating whether a satisfying assignment was found,
+             and the number of iterations performed during the search.
+    :return: True if a satisfying assignment is found , False otherwise.
     """
 
     k = instance.get_longest_clause_length()
@@ -30,6 +32,8 @@ def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> bo
 
     all_variables = list(instance.get_all_variables())
 
+    check_count = 0
+
     for _ in range(number_iterations):
 
         # (Re)start: New assignment chosen u.a.r.
@@ -38,10 +42,11 @@ def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> bo
             assignment[variable] = random.choice([True, False])
 
         for __ in range(instance.num_variables):
+            check_count += 1
 
             # Check if assignments is satisfying assignment
             if check_assignment(instance, assignment):
-                return True
+                return True, check_count
 
             # Choose one unsatisfied clause u.a.r
             unsatisfied_clauses = get_unsatisfied_clauses(instance, assignment)
@@ -57,4 +62,5 @@ def is_satisfiable_schoening(instance: Instance, error_rate: float = 1e-8) -> bo
             # Flip literal in assignment
             assignment[selected_variable] = not assignment[selected_variable]
 
-    return False
+    return False, check_count
+

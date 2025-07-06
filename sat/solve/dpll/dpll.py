@@ -5,7 +5,7 @@ from sat.solve.dpll.dpll_node import DPLLNode
 from sat.solve.dpll.heuristics import DPLLHeuristic
 
 
-def is_satisfiable_dpll(input_instance: Instance, heuristic: DPLLHeuristic) -> bool:
+def is_satisfiable_dpll(input_instance: Instance, heuristic: DPLLHeuristic) -> tuple[bool, int]:
     """
     Determines the satisfiability of a SAT instance using the DPLL (Davis–Putnam–Logemann–Loveland) algorithm.
 
@@ -24,18 +24,23 @@ def is_satisfiable_dpll(input_instance: Instance, heuristic: DPLLHeuristic) -> b
 
     :param input_instance: The input SAT instance to be checked for satisfiability.
     :param heuristic: A function that selects the next literal to branch on.
-    :return: True if the instance is satisfiable, False otherwise.
+    :return: A tuple containing a boolean indicating whether the instance is satisfiable,
+        and the number of iterations performed during the search.
     """
 
     # Stack holds tuples of (current_instance, current_assignments)
     stack: list[DPLLNode] = [DPLLNode(input_instance, [])]
 
+    # For analysis purposes only
+    iteration_count = 0
+
     while stack:
         current_node = stack.pop()
+        iteration_count += 1
 
         # Check if no clauses left -> satisfiable
         if current_node.instance.num_clauses == 0:
-            return True
+            return True, iteration_count
 
         # Check for empty clause -> conflict
         if current_node.instance.has_empty_clause():
@@ -102,4 +107,4 @@ def is_satisfiable_dpll(input_instance: Instance, heuristic: DPLLHeuristic) -> b
         )
 
     # If stack is exhausted without finding a solution
-    return False
+    return False, iteration_count

@@ -77,7 +77,7 @@ def _normalize_to_kernel_step(instance: Instance) -> tuple[Instance, bool]:
     return instance, False
 
 
-def normalize_formula_to_kernel(instance: Instance) -> Instance:
+def normalize_instance_to_kernel(instance: Instance) -> Instance:
     """
     Iteratively reduce the given SAT formula to its "problem kernel" by repeatedly applying
     kernel normalization steps until no further simplifications are possible.
@@ -107,7 +107,7 @@ def normalize_formula_to_kernel(instance: Instance) -> Instance:
         else:
             break
 
-    print(f"Normalizing to problem kernel took {iter_count} iterations")
+    # print(f"Normalizing to problem kernel took {iter_count} iterations")
     return instance
 
 

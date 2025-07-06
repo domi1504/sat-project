@@ -5,9 +5,9 @@ from test.solve.utils import get_satisfiable_instances, get_unsatisfiable_instan
 
 @pytest.mark.parametrize("instance", get_satisfiable_instances(only_small=True))
 def test_gsat_with_walk_sat(instance):
-    assert is_satisfiable_gsat_with_walk(instance)
+    assert is_satisfiable_gsat_with_walk(instance)[0]
 
 
 @pytest.mark.parametrize("instance", get_unsatisfiable_instances(only_small=True))
 def test_gsat_with_walk_unsat(instance):
-    assert not is_satisfiable_gsat_with_walk(instance, max_tries=100)
+    assert not is_satisfiable_gsat_with_walk(instance, max_tries=100)[0]

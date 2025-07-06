@@ -21,7 +21,7 @@ def is_satisfiable_random_local_search(instance: Instance, error_rate: float) ->
 
     :param instance: A SAT instance to be checked for satisfiability.
     :param error_rate: The maximum acceptable probability of failure (i.e., returning False when the instance is satisfiable).
-    :return: True if a satisfying assignment is found within the defined number of iterations, False otherwise.
+    :return: A boolean indicating whether a satisfying assignment is found within the defined number of iterations
     """
 
     # Compute necessary number of iterations to fulfill desired error_rate

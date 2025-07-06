@@ -56,7 +56,7 @@ In this project, I want to grapple with the satisfiability problem (SAT).
   - each using different [heuristics](sat/solve/dpll/heuristics.py)
 - DPLL with conflict driven clause learning (see [here](sat/solve/dpll/dpll_cdcl.py))
   using different [heuristics](sat/solve/dpll/heuristics.py)
-- Monien-Speckenmeyer (see [here](sat/solve/dpll/monien_speckenmeyer.py))
+- Monien-Speckenmeyer (see [here](sat/solve/dpll/monien_speckenmeyer_recursive.py))
 - Paturi-Pudlak-Zane (see [here](sat/solve/dpll/paturi_pudlak_zane.py))
 
 #### Local search based
@@ -68,12 +68,14 @@ In this project, I want to grapple with the satisfiability problem (SAT).
 - GSAT ([base version](sat/solve/local_search/greedy_sat.py) and [with walk](sat/solve/local_search/greedy_sat_with_walk.py))
 - WSAT (see [here](sat/solve/local_search/walk_sat.py))
 
-
 # Phase 3
 
-TODO.
+**Get a feel for implemented algorithms**
 
-Ideas:
+Run the algorithms against randomly generated 3-SAT instances of increasing size.
+Measure the iterations needed to solve them, plot & compare those, which can be compared.
+
+# Further ideas
 
 - Write a little docu / wiki about the algorithms / ideas 
 - create animation of the order the assignments get checked in different approaches
@@ -82,8 +84,6 @@ Ideas:
 - Get a feeling for what instance sizes are possible to deal with nowadays
 - Get to know the State-Of-The-Art SAT solvers, and on what base approaches they are building upon
   z.b. https://github.com/jaras209/SAT_solver/blob/master/cdcl.py, "2-watched literals" (irgendne art index)
-
-# Phase 4
 
 **Try to do some research on my own** 
 
